@@ -1,0 +1,111 @@
+﻿<Window x:Class="WPFProject.BookingFlightWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFProject"
+        mc:Ignorable="d"
+        Title="BookingFlightWindow" WindowStartupLocation="CenterScreen" Height="800" Width="1200" AllowsTransparency="True" Background="Transparent" WindowStyle="None"> 
+    <Border  CornerRadius="20" Background="#FF103454">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+
+
+            </Grid.RowDefinitions>
+            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                  Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                  FontSize="20" Click="btnMaximize_Click"/>
+            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                     Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                     FontSize="20" Click="btnCloseAll_Click"/>
+            <Border Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="30" Margin="200,5" >
+                <Label Content="AirLine Booking"   Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="45" FontWeight="Bold" HorizontalAlignment="Center"/>
+            </Border>
+            <Button  x:Name="btnBack" Click="btnBack_Click" Background="#FF159D93"  Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="10" Padding="10" Foreground="White" FontWeight="Medium" FontSize="24" >
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Label Margin="0" Grid.ColumnSpan="3" Foreground="#FFEFF4BB" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Enter email to find existing passenger!" FontSize="24" FontWeight="Medium"></Label>
+
+            <Label Margin="10" Foreground="White" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Email" FontSize="24" FontWeight="Medium"></Label>
+            <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
+                <TextBox x:Name="txtEmail" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></TextBox>
+            </Border>
+            <Label Margin="10" Foreground="White" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Passenger ID" FontSize="24" FontWeight="Medium"></Label>
+            <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2">
+                <TextBox x:Name="txtID" IsReadOnly="True" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></TextBox>
+            </Border>
+            <Label Margin="10" Foreground="White" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="First Name" FontSize="24" FontWeight="Medium"></Label>
+            <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2">
+                <TextBox x:Name="txtFirstName" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></TextBox>
+            </Border>
+            <Button x:Name="btnFindPassenger" Click="btnFindPassenger_Click" Grid.Column="2" Content="Find" FontWeight="Medium" Foreground="White" FontSize="24"  Grid.Row="2" Margin="320,15,80,15" Background="#FFD4B1B1">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Label Margin="10" Foreground="White" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Last Name" FontSize="24" FontWeight="Medium"></Label>
+            <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2">
+                <TextBox  x:Name="txtLastName" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></TextBox>
+
+            </Border>
+            <Label Margin="10" Foreground="White" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Date of birth" FontSize="24" FontWeight="Medium"></Label>
+            <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2">
+                <DatePicker  x:Name="dtDateofBirth" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></DatePicker>
+            </Border>
+            <Label Margin="10" Foreground="White" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Country" FontSize="24" FontWeight="Medium"></Label>
+            <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2">
+                <TextBox x:Name="txtCountry" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></TextBox>
+            </Border>
+            
+            <Label Margin="10" Foreground="White" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Gender" FontSize="24" FontWeight="Medium"></Label>
+            <StackPanel Margin="20" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <RadioButton x:Name="rbMale" Foreground="White" VerticalContentAlignment="Center" FontSize="24" FontWeight="Medium" Content="Male" IsChecked="True" BorderThickness="2,2,2,2"/>
+                <RadioButton x:Name="rbFemale"  Foreground="White" Margin="100,0,0,0" VerticalContentAlignment="Center" FontSize="24" FontWeight="Medium" Content="Female" BorderThickness="2,2,2,2"></RadioButton>
+            </StackPanel>
+            <Label Margin="10" Foreground="White" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Booking Platform" FontSize="24" FontWeight="Medium"></Label>
+            <ComboBox Grid.Column="1" Grid.Row="9" x:Name="cbBookingPlatform" Width="250"   Background="White"  FontSize="20" Margin="20,20,5,20" BorderBrush="Transparent" BorderThickness="0"></ComboBox>
+                   
+            
+            <Button x:Name="btnPassengerBooking" Click="btnPassengerBooking_Click" Grid.Column="0" Content="Book" FontWeight="Medium" Foreground="White" FontSize="30" Grid.ColumnSpan="2" Grid.Row="10" Margin="250,5,50,5" Background="#FFD273E3">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="30"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button x:Name="btnReset" Click="btnReset_Click" Grid.Column="2" Content="Reset Form" FontWeight="Medium" Foreground="White" FontSize="30"  Grid.Row="10" Margin="50,5,250,5" Background="#FFAA5353">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="30"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+
+        </Grid>
+    </Border>
+</Window>

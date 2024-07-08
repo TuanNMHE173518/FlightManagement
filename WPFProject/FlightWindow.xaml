@@ -1,0 +1,182 @@
+﻿<Window x:Class="WPFProject.BookingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFProject" xmlns:local1="clr-namespace:WPFProject2.Resource"
+        mc:Ignorable="d"    
+        Title="FlightWindow" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" WindowStyle="None" >
+    <Window.Resources>
+        <local1:StatusConverter x:Key="StatusConverter"></local1:StatusConverter>
+        <local1:StatusVisibilityConverter x:Key="StatusVíibilityConverter"></local1:StatusVisibilityConverter>
+    </Window.Resources>
+    <Border  CornerRadius="20" Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                
+            </Grid.RowDefinitions>
+            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                    Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                    FontSize="20" Click="btnMaximize_Click"/>
+            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                    Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                    FontSize="20" Click="btnCloseAll_Click"/>      
+            <Border Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="40" Margin="200,10" >
+                <Label Content="AirLine Booking" Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="1"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center"/>
+            </Border>
+            <Button Grid.ColumnSpan="2" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="30" Width="100" FontSize="12" />
+
+            <Border Grid.Row="1"  Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="From" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"> </Label>
+                    <ComboBox x:Name="cbFrom" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2"   Grid.Column="0" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="To" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbTo" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Departing Date" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtDeparture" Margin="10,0,10,0"  FontSize="18"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Arriving Date" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtArrival" Margin="10,0,10,0"  FontSize="18"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Airline" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbAirline" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Status" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbStatus" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+            <Button x:Name="btnSearch" Click="btnSearch_Click" Grid.Row="1" Content="Search" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1" Margin="15">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnReset" Click="btnReset_Click" Grid.Row="2" Content="Reset Filter" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1" Margin="15">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnBookingHistory" Click="btnBookingHistory_Click" Grid.Row="1" Grid.RowSpan="2" Content="Booking History" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="4" Background="#FF374DC1" Margin="15,65">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <ListView  Background="#FFD6F1F0" Grid.Column="0" x:Name="lvFligt"   Grid.ColumnSpan="5" Grid.Row="3"  FontSize="16">
+                
+                <ListView.Resources>
+         
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border" BorderThickness="1" CornerRadius="20" BorderBrush="Gray" Background="{TemplateBinding Background}" Margin="5">
+                                        <Grid>
+                                            <GridViewRowPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
+                                            <Button Tag="{Binding Id}" Click="Button_Click" 
+                                                    Content="Book" 
+                                                    Visibility="{Binding Status, Converter={StaticResource StatusVíibilityConverter}, ConverterParameter=True}" Style="{StaticResource btnBook}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                            <Border CornerRadius="15" Background="Red" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20,10,20,10" Visibility="{Binding Status, Converter={StaticResource StatusVíibilityConverter}, ConverterParameter=False}">
+                                                <TextBlock FontSize="18" FontWeight="Medium"   Text="Cancelled" Visibility="{Binding Status, Converter={StaticResource StatusVíibilityConverter}, ConverterParameter=False}" ></TextBlock>
+                                                
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="#FF159D93"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        
+                    </Style>
+                    <Style TargetType="GridViewColumnHeader">
+                        <Setter Property="Padding" Value="5"></Setter>
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding Id}"> </GridViewColumn>
+                        <GridViewColumn Width="170" Header="Airline"  DisplayMemberBinding="{Binding Airline.Name}"/>
+                        <GridViewColumn Width="355" Header="Departing Airport">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding DepartingAirportNavigation.Code}" Margin="5"/>
+                                        <TextBlock Text="{Binding DepartingAirportNavigation.Name}" FontSize="12" Margin="5"/>
+                                        <TextBlock Text="{Binding DepartureTime}" Margin="5"/>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="355" Header="Arriving Airport">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding ArrivingAirportNavigation.Code}" Margin="5"/>
+                                        <TextBlock Text="{Binding ArrivingAirportNavigation.Name}" FontSize="12" Margin="5"/>
+                                        <TextBlock Text="{Binding ArrivalTime}" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="D Gate" Width="80" DisplayMemberBinding="{Binding DepartingGate}"></GridViewColumn>
+                        <GridViewColumn Header="A Gate" Width="80" DisplayMemberBinding="{Binding ArrivingGate}"></GridViewColumn>
+                       
+                    </GridView>
+                </ListView.View>
+              
+              
+            </ListView>
+        </Grid>
+    </Border>
+</Window>

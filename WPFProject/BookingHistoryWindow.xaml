@@ -1,0 +1,207 @@
+﻿<Window x:Class="WPFProject.BookingHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFProject" xmlns:local1="clr-namespace:WPFProject2.Resource"
+        mc:Ignorable="d"
+        Title="BookingHistoryWindow" WindowStartupLocation="CenterScreen" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+    <Window.Resources>
+        <local1:StatusConverter x:Key="StatusConverter"/>
+    </Window.Resources>
+    
+    <Border  CornerRadius="20" Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                      Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                      FontSize="20" Click="btnMaximize_Click"/>
+            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                     Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                     FontSize="20" Click="btnCloseAll_Click"/>  
+            <Border Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="40" Margin="200,10" >
+                <Label Content="Booking History" Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="1"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center"/>
+            </Border>
+            <Button Grid.ColumnSpan="2" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="30" Width="100" FontSize="12" />
+
+            <Border Grid.Row="1"  Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="From" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbFrom" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2"   Grid.Column="0" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="To" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbTo" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Departing Date" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtDeparture" Margin="10,0,10,0"  FontSize="18"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Arriving Date" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtArrival" Margin="10,0,10,0"  FontSize="18"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1"   Grid.Column="3" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Airline" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbAirline" Margin="10,0,10,0" Padding="7"></ComboBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Booking time" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtBook" Margin="10,0,10,0" FontSize="18"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Passenger Name" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <TextBox x:Name="txtName" Margin="10,0,10,0" FontSize="18"></TextBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2"   Grid.Column="3"  Background="#FFD6F1F0" CornerRadius="20" Margin="15">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Status" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbStatus" Margin="10,0,10,0" FontSize="18"></ComboBox>
+                </StackPanel>
+            </Border>
+            <Button x:Name="btnSearch" Click="btnSearch_Click"  Grid.Row="1"  Content="Search" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="4" Background="#FF37B3C1" Margin="15">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnSesetFilter" Click="btnSesetFilter_Click"  Grid.Row="1"  Content="Reset" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="5" Background="#FF37B3C1" Margin="15">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnCancel" Click="btnCancel_Click"  Grid.Row="2"  Content="Cancel Booking" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="4" Background="#FFC14F37" Margin="15">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnActivate" Click="btnActivate_Click"  Grid.Row="2"  Content="Activate Booking" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="5" Background="#FFC14F37" Margin="15">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <ListView x:Name="lvBookingHistory" Background="#FFD6F1F0" FontSize="13" Grid.Row="3" Grid.ColumnSpan="6">
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border" BorderThickness="1" CornerRadius="20" BorderBrush="Gray" Background="{TemplateBinding Background}" >
+                                        <Grid>
+                                            <GridViewRowPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
+                                            <Button Tag="{Binding id}" x:Name="btnUpdateBooking" Click="btnUpdateBooking_Click"  Content="Update" Style="{StaticResource btndelete}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                            <Button Tag="{Binding id}" x:Name="btnManageBaggage" Click="btnManageBaggage_Click"  Content="Baggage" Style="{StaticResource btnUpdate}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="#FF159D93"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                    <Style TargetType="GridViewColumnHeader">
+                        <Setter Property="Padding" Value="5"></Setter>
+                        <Setter Property="FontSize" Value="16"></Setter>
+                    </Style>
+                </ListView.Resources>
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding id}"  Header="ID"></GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding PassengerName}" Header="Passenger"></GridViewColumn>
+                        <GridViewColumn Width="150"  Header="Airline">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding AirlineCode}" Margin="5"/>
+                                        <TextBlock Text="{Binding AirlineName}" FontSize="12" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="245" Header="Depature">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding DepartingAirportCode}" Margin="5"/>
+                                        <TextBlock Text="{Binding DepartingAirportName}" FontSize="12" Margin="5"/>
+                                        <TextBlock Text="{Binding DepartureTime}" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="245" Header="Arrival">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding ArrivingAirportCode}" Margin="5"/>
+                                        <TextBlock Text="{Binding ArrivingAirportName}" FontSize="12" Margin="5"/>
+                                        <TextBlock Text="{Binding ArrivalTime}" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding PlatformName}" Header="Platform"></GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding BookingTime}" Header="Booking time"></GridViewColumn>
+                        <GridViewColumn Width="90"   Header="Status">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Status, Converter={StaticResource StatusConverter}}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            
+        </Grid>
+    </Border>
+</Window>

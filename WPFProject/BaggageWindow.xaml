@@ -1,0 +1,139 @@
+﻿<Window x:Class="WPFProject2.BaggageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFProject2" xmlns:local1="clr-namespace:WPFProject2.Resource"
+        mc:Ignorable="d"
+        Title="BaggageWindow" WindowStartupLocation="CenterScreen" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+    <Window.Resources>
+        <local1:WeightConverter x:Key="WeightConverter"></local1:WeightConverter>
+    </Window.Resources>
+    <Border  CornerRadius="20" Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                  Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                  FontSize="20" Click="btnMaximize_Click"/>
+            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                 Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+                 FontSize="20" Click="btnCloseAll_Click"/>
+            <Border Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="40" Margin="200,10" >
+                <Label x:Name="lblBaggage" Content="Baggage" Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="1"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center"/>
+            </Border>
+            <Button Grid.ColumnSpan="2" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="30" Width="100" FontSize="12" />
+
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
+                <Label Content="Baggage Information" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium" Foreground="#FF13755F"></Label>
+                <Border Margin="100,50,100,10" CornerRadius="10" BorderBrush="Black" BorderThickness="1" Padding="5">
+                    <Grid>
+                        <TextBlock x:Name="txtBlockBaggageId" MouseDown="txtBlockBaggageId_MouseDown" Margin="5,0,0,0" FontSize="18" Foreground="#FFA8A8A8" Text="Baggage ID" Panel.ZIndex="1"></TextBlock>
+                        <TextBox TextChanged="txtBaggage_TextChanged" x:Name="txtBaggage" IsReadOnly="True" Margin="5,0,0,0" FontSize="18" BorderBrush="Transparent"  BorderThickness="0"></TextBox>
+                    </Grid>
+                </Border>
+                <Border Margin="100,10,100,10" CornerRadius="10" BorderBrush="Black" BorderThickness="1" Padding="5">
+                    <Grid>
+                        <TextBlock x:Name="txtBlockBooking" MouseDown="txtBlockBooking_MouseDown" Margin="5,0,0,0" FontSize="18" Foreground="#FFA8A8A8" Text="Booking ID" Panel.ZIndex="1"></TextBlock>
+                        <TextBox TextChanged="txtBooking_TextChanged" x:Name="txtBooking" IsReadOnly="True" Margin="5,0,0,0" FontSize="18" BorderBrush="Transparent"  BorderThickness="0"></TextBox>
+                    </Grid>
+                </Border>
+                <Border Margin="100,10,100,10" CornerRadius="10" BorderBrush="Black" BorderThickness="1" Padding="5">
+                    <Grid>
+                        <TextBlock x:Name="txtBlockPassenger" MouseDown="txtBlockPassenger_MouseDown" Margin="5,0,0,0" FontSize="18" Foreground="#FFA8A8A8" Text="Passenger Name" Panel.ZIndex="1"></TextBlock>
+                        <TextBox TextChanged="txtPassenger_TextChanged" x:Name="txtPassenger" IsReadOnly="True" Margin="5,0,0,0" FontSize="18" BorderBrush="Transparent"  BorderThickness="0"></TextBox>
+                    </Grid>
+                </Border>
+                <Border Margin="100,10,100,10" CornerRadius="10" BorderBrush="Black" BorderThickness="1" Padding="5">
+                    <Grid>
+                        <TextBlock x:Name="txtBlockWeight" MouseDown="txtBlockWeight_MouseDown" Margin="5,0,0,0" FontSize="18" Foreground="#FFA8A8A8" Text="Weight (Kg)" Panel.ZIndex="1"></TextBlock>
+                        <TextBox TextChanged="txtWeight_TextChanged" x:Name="txtWeight" Margin="5,0,0,0" FontSize="18" BorderBrush="Transparent"  BorderThickness="0"></TextBox>
+                    </Grid>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Margin="10,20,10,10" Width="150" x:Name="btnAdd" Click="btnAdd_Click"   Content="Add" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1"  >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Margin="10,20,10,10" Width="150" x:Name="btnUpdate" Click="btnUpdate_Click"   Content="Update" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="4" Background="#FF37B3C1" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" x:Name="noResultsLabel" Foreground="#FFB33232" Content=" Don't have baggage for current booking!" FontSize="28"/>
+            <ListView SelectionChanged="lvBaggage_SelectionChanged" x:Name="lvBaggage" Background="#FFD6F1F0" FontSize="16" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Column="2">
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border" BorderThickness="1" CornerRadius="20" BorderBrush="Gray" Background="{TemplateBinding Background}" >
+                                        <Grid>
+                                            <GridViewRowPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
+                                            <Button Tag="{Binding Id}" x:Name="btnDeleteBaggage" Click="btnDeleteBaggage_Click"  Content="Delete" Style="{StaticResource btndelete}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="#FF159D93"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                    <Style TargetType="GridViewColumnHeader">
+                        <Setter Property="Padding" Value="5"></Setter>
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
+                </ListView.Resources>
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Id}"  Header="ID"></GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding BookingId}" Header="Booking ID"></GridViewColumn>
+                        <GridViewColumn Width="250" DisplayMemberBinding="{Binding PassengerName}" Header="Passenger Name"></GridViewColumn>
+                     
+                        <GridViewColumn Width="150" Header="Weight">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding WeightInKg, Converter={StaticResource WeightConverter}}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+        </Grid>
+    </Border>
+</Window>
