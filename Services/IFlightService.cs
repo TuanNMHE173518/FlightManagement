@@ -10,7 +10,7 @@ namespace Services
     public interface IFlightService
     {
         List<Flight> GetAllFlights();
-        List<Flight> FindByAirlineAirportAnddate(int departureAirportId,int ArrivalAirportId, int airlineId, DateTime? departureDate, DateTime? arrivalDate, bool status);
+        List<Flight> FindByAirlineAirportAnddate(int departureAirportId,int ArrivalAirportId, int airlineId, DateTime? departureDate, DateTime? arrivalDate, string status);
         List<Flight> FindByAirlineAirportAnddate2(int departureAirportId, int airlineId, DateTime? departureDate);
         void AddFlight(Flight flight);
         void UpdateFlight(Flight flight);
@@ -18,5 +18,7 @@ namespace Services
         Flight GetFlightById(int id);
 
         void UpdateFlightStatus(Flight flight, bool status);
+
+        
     }
 }

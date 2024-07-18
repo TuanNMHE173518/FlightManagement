@@ -31,14 +31,14 @@ namespace Services
 
         }
 
-        public List<Flight> FindByAirlineAirportAnddate(int departureAirportId, int ArrivalAirportId, int airlineId, DateTime? departureDate, DateTime? arrivalDate, bool status)
+        public List<Flight> FindByAirlineAirportAnddate(int departureAirportId, int ArrivalAirportId, int airlineId, DateTime? departureDate, DateTime? arrivalDate, string status)
         {
             var foundFlight = GetAllFlights().Where(f => (departureAirportId == 0 || f.DepartingAirport == departureAirportId )
                                                         && (ArrivalAirportId ==0 ||  f.ArrivingAirport == ArrivalAirportId)
                                                         && (airlineId == 0 ||  f.AirlineId == airlineId)
                                                         && (departureDate == null || f.DepartureTime.Value >= departureDate)
                                                         && (arrivalDate == null || f.ArrivalTime.Value <= arrivalDate)
-                                                        && (f.Status == status)).ToList();
+                                                        && (status == "All" || f.Status == bool.Parse(status))).ToList();
             return foundFlight;
         }
 

@@ -101,22 +101,41 @@ namespace WPFProject
             }
             else
             {
-                AccountMember account = new AccountMember();
-                account.FullName = txtFullName.Text;
-                account.Email = txtEmail.Text;
-                account.Password = BCrypt.Net.BCrypt.HashPassword(txtPassword.Password);
-                account.Enable = true;
-                if(rbAdmin.IsChecked == true)
+                AccountMember testAccount = accountMemberService.GetAccountByEmail(txtEmail.Text);
+                if (testAccount == null)
                 {
-                    account.Role = "Admin";
-                }
-                else if (rbStaff.IsChecked == true)
-                {
-                    account.Role = "Staff";
-                }
+                    AccountMember account = new AccountMember();
+                    account.FullName = txtFullName.Text;
+                    account.Email = txtEmail.Text;
+                    account.Password = BCrypt.Net.BCrypt.HashPassword(txtPassword.Password);
+                    account.Enable = true;
+                    if (rbAdmin.IsChecked == true)
+                    {
+                        account.Role = "Admin";
+                    }
+                    else if (rbStaff.IsChecked == true)
+                    {
+                        account.Role = "Staff";
+                    }
 
-                accountMemberService.CreateAccount(account);
-                this.Close();
+                    if (rbMale.IsChecked == true)
+                    {
+                        account.Gender = "Male";
+                    }
+                    else if (rbFemale.IsChecked == true)
+                    {
+                        account.Gender = "Female";
+                    }
+
+                    accountMemberService.CreateAccount(account);
+                    this.Close();
+                    MessageBox.Show("Create account successfully!");
+                }
+                else
+                {
+                    MessageBox.Show("Account has been existed!");
+                }
+               
             }
         }
 

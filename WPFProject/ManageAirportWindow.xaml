@@ -17,7 +17,6 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="0.5*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -33,22 +32,179 @@
             <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
                 Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
                 FontSize="20" Click="btnCloseAll_Click"/>
-            <Label Content="Manage Account" Grid.Row="0" HorizontalAlignment="Left" Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="36" FontWeight="Medium" Grid.Column="2" Margin="151,0,0,0"/>
+            <Label Content="Manage Airport" Grid.Row="0" HorizontalAlignment="Left" Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="36" FontWeight="Medium" Grid.Column="2" Margin="151,0,0,0"/>
             <Button x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="40" Width="100" FontSize="12" />
-            <Label Content="Account Information" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></Label>
+            <Label Content="Airport Information" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></Label>
+
+            <Grid Grid.Row="1" Grid.Column="1"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Filter: " VerticalAlignment="Center" FontSize="18" FontWeight="Medium" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Label>
+                <Border Width="200" Margin="5" Grid.Row="0" Grid.Column="1" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
 
 
-            <DataGrid Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="16"  AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" >
+                        <TextBlock MouseDown="txtBlockFilterName_MouseDown" FontSize="18" x:Name="txtBlockFilterName"  Text="Name" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtFilterName" TextChanged="txtFilterName_TextChanged"  BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Border Width="200" Margin="5" Grid.Row="1" Grid.Column="1" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+
+
+                        <TextBlock MouseDown="txtBlockFilterCountry_MouseDown" FontSize="18" x:Name="txtBlockFilterCountry"  Text="Country" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtFilterCountry" TextChanged="txtFilterCountry_TextChanged"  BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Border Width="200" Margin="5" Grid.Row="0" Grid.Column="2" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+
+
+                        <TextBlock MouseDown="txtBlockStateFilter_MouseDown" FontSize="18" x:Name="txtBlockStateFilter"  Text="State" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtFilterState" TextChanged="txtStateFilter_TextChanged"  BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Border Width="200" Margin="5" Grid.Row="1" Grid.Column="2" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+
+
+                        <TextBlock MouseDown="txtBlockCityFilter_MouseDown" FontSize="18" x:Name="txtBlockCityFilter"  Text="City" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtFilterCity" TextChanged="txtCityFilter_TextChanged"  BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Button x:Name="btnFilter" Grid.Row="0" Margin="5" Width="150" Grid.Column="3" Click="btnFilter_Click"  Style="{StaticResource btnAccount}" Content="Filter" ></Button>
+
+                <Button x:Name="btnreset" Grid.Row="1" Margin="5" Width="150" Grid.Column="3" Click="btnreset_Click"  Style="{StaticResource btnAccount}" Content="Reset" ></Button>
+
+            </Grid>
+
+            <StackPanel Grid.Row="2"  Grid.RowSpan="6" Margin="0,80,0,0" Orientation="Vertical">
+                <Border Width="350"  CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock FontSize="18" x:Name="txtBlockID"  Text="ID" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox IsReadOnly="True" FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtId" TextChanged="txtId_TextChanged"  BorderThickness="0,0,0,0"/>
+                    </Grid>
+
+                </Border>
+
+                <Border Width="350" Margin="0,20,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontSize="18" x:Name="txtBlockCode" MouseDown="txtBlockCode_MouseDown" Text="Code" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtCode" TextChanged="txtCode_TextChanged" BorderThickness="0,0,0,0"/>
+                    </Grid>
+
+                </Border>
+
+                <Border Width="350" Margin="0,20,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Images/airport-5946.png" Height="20" Grid.Column="0"/>
+                        <TextBlock FontSize="18" x:Name="txtBlockName" MouseDown="txtBlockName_MouseDown" Text="Name" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtName" TextChanged="txtName_TextChanged" BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+
+                <Border Width="350" Margin="0,20,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Images/country.png" Height="20" Grid.Column="0"/>
+                        <TextBlock FontSize="18" x:Name="txtBlockCountry" MouseDown="txtBlockCountry_MouseDown" Text="Country" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtCountry" TextChanged="txtCountry_TextChanged" BorderThickness="0,0,0,0"/>
+                    </Grid>
+
+                </Border>
+
+                <Border Width="350" Margin="0,20,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Images/state.png" Height="20" Grid.Column="0"/>
+                        <TextBlock FontSize="18" x:Name="txtBlockState" MouseDown="txtBlockState_MouseDown" Text="State" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtState" TextChanged="txtState_TextChanged" BorderThickness="0,0,0,0"/>
+                    </Grid>
+
+                </Border>
+
+                <Border Width="350" Margin="0,20,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Images/city.png" Height="20" Grid.Column="0"/>
+                        <TextBlock FontSize="18" x:Name="txtBlockCity" MouseDown="txtBlockCity_MouseDown" Text="City" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtCity" TextChanged="txtCity_TextChanged" BorderThickness="0,0,0,0"/>
+                    </Grid>
+
+                </Border>
+
+
+                <StackPanel Margin="50" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="btnCreate" Margin="20,0,10,0" Click="btnCreate_Click" Foreground="White" FontSize="18" FontWeight="Medium"  Content="Create"  Width="100" Padding="15" Background="#FFCF6E40">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnUpdate" Margin="5,0,5,0" Click="btnUpdate_Click" Foreground="White" FontSize="18" FontWeight="Medium"  Content="Update"  Width="100" Padding="15" Background="#FFCF6E40">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnDelete" Margin="10,0,20,0" Click="btnDelete_Click" Foreground="White" FontSize="18" FontWeight="Medium"  Content="Delete"  Width="100" Padding="15" Background="#FFCF6E40">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+
+
+            </StackPanel>
+
+            <DataGrid Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="16" x:Name="dgAirport" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgAirport_SelectionChanged" SelectionMode="Single">
                 <DataGrid.ColumnHeaderStyle>
                     <StaticResource ResourceKey="DataGridColumnHeaderStyle"></StaticResource>
                 </DataGrid.ColumnHeaderStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="*" Header="ID" Binding="{Binding AccountId}"></DataGridTextColumn>
-                    <DataGridTextColumn Width="3*" Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
-                    <DataGridTextColumn Width="3*" Header="Full Name" Binding="{Binding FullName}"></DataGridTextColumn>
-                    <DataGridTextColumn Width="*" Header="Role" Binding="{Binding Role}"></DataGridTextColumn>
-
+                    <DataGridTextColumn Width="Auto" Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="Auto" Header="Code" Binding="{Binding Code}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="Auto" Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="Auto" Header="Country" Binding="{Binding Country}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="Auto" Header="State" Binding="{Binding State}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="Auto" Header="City" Binding="{Binding City}"></DataGridTextColumn>
 
                 </DataGrid.Columns>
             </DataGrid>

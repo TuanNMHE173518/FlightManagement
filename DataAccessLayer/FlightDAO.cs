@@ -77,7 +77,11 @@ namespace DataAccessLayer
         }
 
 
-       
+        public static List<Flight> GetFlightsByAirportId(int airportId)
+        {
+            FlightManagementDbContext context = new FlightManagementDbContext();
+            return context.Flights.Where(x => x.ArrivingAirport == airportId || x.DepartingAirport == airportId).ToList();
+        }
 
     }
 }

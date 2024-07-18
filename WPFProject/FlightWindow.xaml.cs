@@ -69,7 +69,7 @@ namespace WPFProject
         private void LoadFlights()
         {
             lvFligt.ItemsSource = null;
-            var flights = flightService.GetAllFlights().OrderByDescending(f => f.DepartureTime);
+            var flights = flightService.GetAllFlights().Where(f => !(f.ArrivalTime.HasValue && f.ArrivalTime.Value.AddHours(1) < DateTime.Now)).OrderByDescending(f => f.DepartureTime);
             lvFligt.ItemsSource = flights;
 
             var statusOptions = new List<MappingStatus>
@@ -105,8 +105,7 @@ namespace WPFProject
             int airlineId = Int32.Parse(cbAirline.SelectedValue.ToString());
             int from = Int32.Parse(cbFrom.SelectedValue.ToString());
             int to = Int32.Parse(cbTo.SelectedValue.ToString());
-            bool status = true;
-            status = bool.Parse(cbStatus.SelectedValue.ToString());
+            string status = cbStatus.SelectedValue.ToString();
             DateTime? departureDate = null;
             DateTime? arrivalDate = null;
             if(dtDeparture.SelectedDate != null)
@@ -117,7 +116,7 @@ namespace WPFProject
             {
                 arrivalDate = dtArrival.SelectedDate.Value;
             }
-            var foundFlight = flightService.FindByAirlineAirportAnddate(from,to,airlineId,departureDate, arrivalDate, status).OrderBy(f => f.DepartureTime);
+            var foundFlight = flightService.FindByAirlineAirportAnddate(from,to,airlineId,departureDate, arrivalDate, status).Where(f => !(f.ArrivalTime.HasValue && f.ArrivalTime.Value.AddHours(1) < DateTime.Now)).OrderBy(f => f.DepartureTime);
             lvFligt.ItemsSource = null;
             lvFligt.ItemsSource = foundFlight;
 
@@ -169,6 +168,14 @@ namespace WPFProject
             {
                 Application.Current.Shutdown();
             }
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            LoadFlights();
+            LoadAirLines();
+            LoadAirports();
         }
     }
 }

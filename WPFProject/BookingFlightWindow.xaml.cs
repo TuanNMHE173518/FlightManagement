@@ -24,6 +24,7 @@ namespace WPFProject
         private readonly IBookingPlatformService bookingPlatformService;
         private readonly IBookingService bookingService;
         private readonly IPassengerService passengerService;
+        private readonly IFlightService flightService;
         private readonly string flightId;
         public BookingFlightWindow(string flightId)
         {
@@ -32,6 +33,7 @@ namespace WPFProject
             bookingPlatformService = new BookingPlatformService();
             bookingService = new BookingService();
             passengerService = new PassengerService();
+            flightService = new FlightService();
             LoadBookingPlatforms();
         }
 
@@ -71,56 +73,68 @@ namespace WPFProject
             {
                 if (DateTime.Today.AddYears(-2) >= dtDateofBirth.SelectedDate.Value)
                 {
-                    Booking booking = new Booking();
-                    if (txtID.Text.Length > 0)
+                    Flight flight = flightService.GetFlightById(Int32.Parse(flightId));
+                    int numberOfBooking = bookingService.CountNumberBookingByFlightId(Int32.Parse(flightId));
+                    if (numberOfBooking < flight.NumberPassengers)
                     {
-                        booking.PassengerId = Int32.Parse(txtID.Text);
-                    }
-                    else
-                    {
-                       
-                        Passenger passenger = new Passenger();
-                        passenger = passengerService.GetPassengerByEmail(txtEmail.Text);
-                        if(passenger != null)
+                        Booking booking = new Booking();
+                        if (txtID.Text.Length > 0)
                         {
-                            MessageBoxResult result = MessageBox.Show("The email already exists, do you want to save the passenger with the old information?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                booking.PassengerId = passenger.Id;
-
-                            }
-                            else if (result == MessageBoxResult.No)
-                            {
-                                return;
-                            }
-
+                            booking.PassengerId = Int32.Parse(txtID.Text);
                         }
                         else
                         {
-                            Passenger passenger1 = new Passenger();
 
-                            passenger1.FirstName = txtFirstName.Text;
-                            passenger1.LastName = txtLastName.Text;
-                            passenger1.Email = txtEmail.Text;
-                            passenger1.Country = txtCountry.Text;
-                            if (rbMale.IsChecked == true) passenger1.Gender = "Male";
-                            if (rbFemale.IsChecked == true) passenger1.Gender = "Female";
-                            passenger1.DateOfBirth = DateOnly.FromDateTime(dtDateofBirth.SelectedDate.Value);
-                            passengerService.AddPassengers(passenger1);
-                            booking.PassengerId = passenger1.Id;
+
+                            Passenger passenger = new Passenger();
+                            passenger = passengerService.GetPassengerByEmail(txtEmail.Text);
+                            if (passenger != null)
+                            {
+                                MessageBoxResult result = MessageBox.Show("The email already exists, do you want to save the passenger with the old information?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                if (result == MessageBoxResult.Yes)
+                                {
+                                    booking.PassengerId = passenger.Id;
+
+                                }
+                                else if (result == MessageBoxResult.No)
+                                {
+                                    return;
+                                }
+
+                            }
+                            else
+                            {
+                                Passenger passenger1 = new Passenger();
+
+                                passenger1.FirstName = txtFirstName.Text;
+                                passenger1.LastName = txtLastName.Text;
+                                passenger1.Email = txtEmail.Text;
+                                passenger1.Country = txtCountry.Text;
+                                if (rbMale.IsChecked == true) passenger1.Gender = "Male";
+                                if (rbFemale.IsChecked == true) passenger1.Gender = "Female";
+                                passenger1.DateOfBirth = DateOnly.FromDateTime(dtDateofBirth.SelectedDate.Value);
+                                passengerService.AddPassengers(passenger1);
+                                booking.PassengerId = passenger1.Id;
+                            }
+
+
+
                         }
-                        
-                        
-                        
+                        booking.FlightId = Int32.Parse(flightId);
+                        booking.BookingPlatformId = Int32.Parse(cbBookingPlatform.SelectedValue.ToString());
+                        booking.BookingTime = DateTime.Now;
+                        booking.Status = true;
+                        bookingService.AddBooking(booking);
+
+
+                        this.Close();
+                        MessageBox.Show("Booking successfully!");
                     }
-                    booking.FlightId = Int32.Parse(flightId);
-                    booking.BookingPlatformId = Int32.Parse(cbBookingPlatform.SelectedValue.ToString());
-                    booking.BookingTime = DateTime.Now;
-                    booking.Status = true;
-                    bookingService.AddBooking(booking);
-
-
-                    this.Close();
+                    else
+                    {
+                        MessageBox.Show("The flight was full of passengers");
+                    }
+                    
                 }
                 else
                 {

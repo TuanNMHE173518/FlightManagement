@@ -1,4 +1,5 @@
 ﻿using BussinessObjects;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,10 @@ namespace Repositories
     {
         List<BookingPlatform> GetAll();
         BookingPlatform GetBookingPlatformById(int id);
+        BookingPlatform GetBookingPlatformByName(string name);
+        BookingPlatform GetBookingPlatformByUrl(string url);
+        void AddPlatform(BookingPlatform bookingPlatform);
+        void UpdatePlatform(BookingPlatform bookingPlatform);
+        void DeletePlatform(BookingPlatform bookingPlatform);
     }
 }

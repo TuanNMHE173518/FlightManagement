@@ -96,7 +96,7 @@
                         </Grid.ColumnDefinitions>
                         <Image Source="/WPFProject;component/Images/user-6764.png" Height="20" Grid.Column="0"/>
                         <TextBlock FontSize="18" x:Name="txtBlockFullName" MouseDown="txtBlockFullName_MouseDown" Text="Full Name" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
-                        <TextBox FontSize="18" Style="{StaticResource titleTextBox}" x:Name="txtFullName" TextChanged="txtFullName_TextChanged" BorderThickness="0,0,0,0"/>
+                        <TextBox FontSize="18" IsReadOnly="True" Style="{StaticResource titleTextBox}" x:Name="txtFullName" TextChanged="txtFullName_TextChanged" BorderThickness="0,0,0,0"/>
                     </Grid>
 
                 </Border>
@@ -105,6 +105,7 @@
                 <StackPanel Margin="50,30,0,40" Orientation="Horizontal">
                     <RadioButton VerticalContentAlignment="Center" x:Name="rbAdmin" Content="Admin" FontSize="20" FontWeight="Medium"></RadioButton>
                     <RadioButton VerticalContentAlignment="Center" x:Name="rbStaff" Margin="30,0,0,0" FontSize="20" FontWeight="Medium" Content="Staff"></RadioButton>
+                    <RadioButton VerticalContentAlignment="Center" x:Name="rbSuperAdmin" Margin="30,0,0,0" FontSize="20" FontWeight="Medium" Content="Super Admin"></RadioButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="btnUpdateAccount" Foreground="White" Padding="10" Click="btnUpdateAccount_Click" Width="160" FontSize="18" FontWeight="Medium" Background="#FF67BBB2" Content="Update" >
@@ -132,20 +133,21 @@
                         </Button.Resources>
                     </Button>
                 </StackPanel>
-                <TextBlock x:Name="txtBlockSignUp" Margin="20" FontWeight="Bold" MouseEnter="txtBlockSignUp_MouseEnter" MouseLeave="txtBlockSignUp_MouseLeave" MouseDown="txtBlockSignUp_MouseDown" Text="Create new account here!"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="#FF196767" TextDecorations="Underline" ></TextBlock>
-                <TextBlock x:Name="txtChangePassword" Margin="0" FontWeight="Bold" MouseEnter="txtChangePassword_MouseEnter" MouseLeave="txtChangePassword_MouseLeave" MouseDown="txtChangePassword_MouseDown" Text="Change your password here!"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="#FFB65757" TextDecorations="Underline" ></TextBlock>
+                <TextBlock x:Name="txtBlockSignUp" Margin="20" FontWeight="Bold" MouseEnter="txtBlockSignUp_MouseEnter" MouseLeave="txtBlockSignUp_MouseLeave" MouseDown="txtBlockSignUp_MouseDown" Text="Create new account here!"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="#FFB65757" TextDecorations="Underline" ></TextBlock>
                 
             </StackPanel>
             
-            <DataGrid Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="16" x:Name="dgAccount" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgAccount_SelectionChanged">
+            <DataGrid CanUserAddRows="False" Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="16" x:Name="dgAccount" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgAccount_SelectionChanged">
                 <DataGrid.ColumnHeaderStyle>
                     <StaticResource ResourceKey="DataGridColumnHeaderStyle"></StaticResource>
                 </DataGrid.ColumnHeaderStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="*" Header="ID" Binding="{Binding AccountId}"></DataGridTextColumn>
-                    <DataGridTextColumn Width="3*" Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
-                    <DataGridTextColumn Width="3*" Header="Full Name" Binding="{Binding FullName}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="0.5*" Header="ID" Binding="{Binding AccountId}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="2*" Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="2*" Header="Full Name" Binding="{Binding FullName}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Gender" Binding="{Binding Gender}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="1.5*" Header="Date of birth" Binding="{Binding Dob}"></DataGridTextColumn>
                     <DataGridTextColumn Width="*" Header="Role" Binding="{Binding Role}"></DataGridTextColumn>
                     
                     <DataGridTemplateColumn Header="Status" Width="*">

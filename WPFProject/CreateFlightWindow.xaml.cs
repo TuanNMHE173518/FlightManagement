@@ -2,6 +2,7 @@
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,12 +27,18 @@ namespace WPFProject2
         private readonly IFlightService flightService;
         private readonly IAirportService airportService;
         private readonly IAirlineService airlineService;
+        private ObservableCollection<Flight> flights;
+        private int currentPage;
+        private int itemsPerPage;
         public CreateFlightWindow()
         {
             InitializeComponent();
             flightService = new FlightService();
             airportService = new AirportService();
             airlineService = new AirlineService();
+            flights = new ObservableCollection<Flight>();
+            currentPage = 1;
+            itemsPerPage = 50;
             LoadFlights();
             LoadAirLines();
             LoadAirports();
@@ -85,11 +92,12 @@ namespace WPFProject2
 
         private void LoadFlights()
         {
-            lvFlight.ItemsSource = null;
-            var flights = flightService.GetAllFlights().OrderByDescending(f => f.DepartureTime);
-            lvFlight.ItemsSource = flights;
-            dtDeparture.Value = null;
-            dtArrival.Value = null;
+            
+            flights = new ObservableCollection<Flight>(flightService.FindByAirlineAirportAnddate(0,0,0,null,null,"All"));
+            DisplayPage(currentPage);
+
+            
+           
             var statusOptions = new List<MappingStatus>
             {
                 new MappingStatus(){ Value = true, DisplayName = "Normal"},
@@ -99,6 +107,15 @@ namespace WPFProject2
             cbSearchStatus.SelectedValuePath = "Value";
             cbSearchStatus.DisplayMemberPath = "DisplayName";
             cbSearchStatus.SelectedValue = true;
+        }
+
+
+        private void DisplayPage(int pageNumber)
+        {
+            int start = (pageNumber - 1) * itemsPerPage;
+            var flightsfound = flights.Skip(start).Take(itemsPerPage).ToList();
+            lvFlight.ItemsSource = flightsfound;
+            txtPageInfo.Text = $"Page {currentPage} of {Math.Ceiling((double)flights.Count / itemsPerPage)}";
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
@@ -121,23 +138,38 @@ namespace WPFProject2
         {
             if(txtID.Text.Length > 0)
             {
-                Flight flight = flightService.GetFlightById(Int32.Parse(txtID.Text));
-                if (flight != null) {
-                    flight.DepartingGate = txtDepartureGate.Text;
-                    flight.ArrivingGate = txtArrivalGate.Text;
-                    flight.DepartureTime = dtDeparture.Value;
-                    flight.ArrivalTime = dtArrival.Value;
-                    flight.DepartingAirport = Int32.Parse(cbFrom.SelectedValue.ToString());
-                    flight.ArrivingAirport = Int32.Parse(cbTo.SelectedValue.ToString());
-                    flight.AirlineId = Int32.Parse(cbAirline.SelectedValue.ToString());
-                    flightService.UpdateFlight(flight);
-                    LoadFlights();
-                    LoadAirLines();
-                    LoadAirports();
+                if (dtDeparture.SelectedDate.HasValue &&
+                    timeDeparture.SelectedTime.HasValue &&
+                    dtArrival.SelectedDate.HasValue &&
+                    timeArrival.SelectedTime.HasValue &&
+                    cbFrom.SelectedValue != null &&
+                    cbTo.SelectedValue != null &&
+                    cbAirline.SelectedValue != null)
+                {
+                    Flight flight = flightService.GetFlightById(Int32.Parse(txtID.Text));
+                    if (flight != null)
+                    {
+                        flight.DepartingGate = txtDepartureGate.Text;
+                        flight.ArrivingGate = txtArrivalGate.Text;
+                        flight.NumberPassengers = Int32.Parse(txtNumberPassengers.Text);
+                        flight.DepartureTime = dtDeparture.SelectedDate.Value.AddHours(timeDeparture.SelectedTime.Value.Hour).AddMinutes(timeDeparture.SelectedTime.Value.Minute);
+                        flight.ArrivalTime = dtArrival.SelectedDate.Value.AddHours(timeArrival.SelectedTime.Value.Hour).AddMinutes(timeArrival.SelectedTime.Value.Minute);
+                        flight.DepartingAirport = Int32.Parse(cbFrom.SelectedValue.ToString());
+                        flight.ArrivingAirport = Int32.Parse(cbTo.SelectedValue.ToString());
+                        flight.AirlineId = Int32.Parse(cbAirline.SelectedValue.ToString());
+                        flightService.UpdateFlight(flight);
+                        LoadFlights();
+                        LoadAirLines();
+                        LoadAirports();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Flight does not exist!");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Flight dose not exist!");
+                    MessageBox.Show("Please fill in all required fields.");
                 }
 
             }
@@ -150,20 +182,39 @@ namespace WPFProject2
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Flight flight = new Flight();
-            flight.DepartingGate = txtDepartureGate.Text;
-            flight.ArrivingGate = txtArrivalGate.Text;
-            flight.DepartureTime = dtDeparture.Value;
-            flight.ArrivalTime = dtArrival.Value;
-            flight.DepartingAirport = Int32.Parse(cbFrom.SelectedValue.ToString());
-            flight.ArrivingAirport = Int32.Parse(cbTo.SelectedValue.ToString());
-            flight.AirlineId = Int32.Parse(cbAirline.SelectedValue.ToString());
-            flight.Status = true;
-            flightService.AddFlight(flight);
-            LoadFlights();
-            LoadAirLines();
-            LoadAirports();
+            if (dtDeparture.SelectedDate.HasValue &&
+                    timeDeparture.SelectedTime.HasValue &&
+                    dtArrival.SelectedDate.HasValue &&
+                    timeArrival.SelectedTime.HasValue &&
+                    cbFrom.SelectedValue != null &&
+                    cbTo.SelectedValue != null &&
+                    cbAirline.SelectedValue != null)
+            {
+                Flight flight = new Flight();
+                flight.DepartingGate = txtDepartureGate.Text;
+                flight.ArrivingGate = txtArrivalGate.Text;
+                flight.NumberPassengers = Int32.Parse(txtNumberPassengers.Text);
+                flight.DepartureTime = dtDeparture.SelectedDate.Value.AddHours(timeDeparture.SelectedTime.Value.Hour).AddMinutes(timeDeparture.SelectedTime.Value.Minute);
+                flight.ArrivalTime = dtArrival.SelectedDate.Value.AddHours(timeArrival.SelectedTime.Value.Hour).AddMinutes(timeArrival.SelectedTime.Value.Minute);
+                flight.DepartingAirport = Int32.Parse(cbFrom.SelectedValue.ToString());
+                flight.ArrivingAirport = Int32.Parse(cbTo.SelectedValue.ToString());
+                flight.AirlineId = Int32.Parse(cbAirline.SelectedValue.ToString());
+                flight.Status = true;
+                flightService.AddFlight(flight);
+                LoadFlights();
+                LoadAirLines();
+                LoadAirports();
+            }
+            else
+            {
+                MessageBox.Show("Please fill in all required fields.");
+            }
+
+           
         }
+
+
+        
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -208,13 +259,34 @@ namespace WPFProject2
                 if (flight != null)
                 {
                     txtID.Text = flight.Id.ToString();
+                    txtNumberPassengers.Text = flight.NumberPassengers.ToString();
                     cbFrom.SelectedValue = flight.DepartingAirport;
                     cbTo.SelectedValue = flight.ArrivingAirport;
                     cbAirline.SelectedValue = flight.AirlineId;
                     txtArrivalGate.Text = flight.ArrivingGate;
                     txtDepartureGate.Text = flight.DepartingGate;
-                    dtDeparture.Value = flight.DepartureTime;
-                    dtArrival.Value = flight.ArrivalTime;
+                    dtDeparture.SelectedDate = flight.DepartureTime;
+                    if (flight.DepartureTime.HasValue)
+                    {
+                        dtDeparture.Text = flight.DepartureTime.Value.ToString("dd/MM/yyyy");
+                    }
+
+                   
+                    dtArrival.SelectedDate = flight.ArrivalTime;
+                    if (flight.ArrivalTime.HasValue)
+                    {
+                        dtArrival.Text = flight.ArrivalTime.Value.ToString("dd/MM/yyyy");
+                    }
+
+                    if (flight.DepartureTime.HasValue)
+                    {
+                        timeDeparture.SelectedTime = flight.DepartureTime;
+                    }
+
+                    if (flight.ArrivalTime.HasValue)
+                    {
+                        timeArrival.SelectedTime = flight.ArrivalTime;
+                    }
                 }
             }
         }
@@ -224,21 +296,21 @@ namespace WPFProject2
             int airlineId = Int32.Parse(cbSearchAirline.SelectedValue.ToString());
             int from = Int32.Parse(cbSearchFrom.SelectedValue.ToString());
             int to = Int32.Parse(cbSearchTo.SelectedValue.ToString());
-            bool status = bool.Parse(cbSearchStatus.SelectedValue.ToString());
+            
 
             DateTime? departureDate = null;
             DateTime? arrivalDate = null;
-            if (dtSearchDepature.Value != null)
+            if (dtSearchDepature.SelectedDate != null)
             {
-                departureDate = dtSearchDepature.Value;
+                departureDate = dtSearchDepature.SelectedDate.Value;
             }
-            if (dtSearchArrival.Value != null)
+            if (dtSearchArrival.SelectedDate != null)
             {
-                arrivalDate = dtSearchArrival.Value;
+                arrivalDate = dtSearchArrival.SelectedDate.Value;
             }
-            var foundFlight = flightService.FindByAirlineAirportAnddate(from,to, airlineId, departureDate, arrivalDate,status).OrderBy(d => d.DepartureTime);
-            lvFlight.ItemsSource = null;
-            lvFlight.ItemsSource = foundFlight;
+            flights = new ObservableCollection<Flight>(flightService.FindByAirlineAirportAnddate(from, to, airlineId, departureDate, arrivalDate, cbSearchStatus.SelectedValue.ToString()));
+            currentPage = 1;
+            DisplayPage(currentPage);
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -247,18 +319,21 @@ namespace WPFProject2
             LoadAirLines();
             LoadAirports();
             txtID.Text = "";
+            txtNumberPassengers.Text = "";
             cbAirline.SelectedValue = null;
             cbFrom.SelectedValue = null;
             cbTo.SelectedValue = null;
-            dtArrival.Value = null;
-            dtDeparture.Value = null;
+            dtArrival.SelectedDate = null;
+            dtDeparture.SelectedDate = null;
+            timeArrival.SelectedTime = null;
+            timeDeparture.SelectedTime = null;
             txtArrivalGate.Text = null;
             txtDepartureGate.Text = null;
             cbSearchFrom.SelectedValue = 0;
             cbSearchFrom.SelectedValue = 0;
             cbSearchStatus.SelectedValue = true;
             cbSearchAirline.SelectedValue = 0;
-            dtSearchDepature.Value = null;
+            dtSearchDepature.SelectedDate = null;
 
 
         }
@@ -299,6 +374,77 @@ namespace WPFProject2
             if (result == MessageBoxResult.Yes)
             {
                 Application.Current.Shutdown();
+            }
+        }
+
+        
+
+        private void txtPageNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPageNumber.Text) && txtPageNumber.Text.Length > 0)
+            {
+                txtBlockPageNumber.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                txtBlockPageNumber.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void txtBlockPageNumber_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            txtPageNumber.Focus();
+        }
+
+        
+        
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage < Math.Ceiling((double)flights.Count / itemsPerPage))
+            {
+                currentPage++;
+                DisplayPage(currentPage);
+            }
+        }
+
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            if(currentPage > 1)
+            {
+                currentPage--;
+                DisplayPage(currentPage);
+            }
+        }
+
+        private void btnGo_Click(object sender, RoutedEventArgs e)
+        {
+            if(int.TryParse(txtPageNumber.Text, out int pagenum))
+            {
+                int totalPages = (int)Math.Ceiling((double)flights.Count / itemsPerPage);
+                if(pagenum >0 && pagenum < totalPages)
+                {
+                    currentPage = pagenum;
+                    DisplayPage(currentPage);
+
+                }
+                else
+                {
+                    MessageBox.Show($"Please enter a valid page number between 1 and {totalPages}.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid page number.");
+            }
+        }
+
+        private void txtNumberPassengers_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if(!Int32.TryParse(e.Text, out int num))
+            {
+                e.Handled = true;
             }
         }
     }

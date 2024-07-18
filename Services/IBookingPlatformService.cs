@@ -11,5 +11,12 @@ namespace Services
     {
         List<BookingPlatform> GetAll();
         BookingPlatform GetBookingPlatformById(int id);
+        BookingPlatform GetBookingPlatformByName(string name);
+        BookingPlatform GetBookingPlatformByUrl(string url);
+        void AddPlatform(BookingPlatform bookingPlatform);
+        void UpdatePlatform(BookingPlatform bookingPlatform);
+        void DeletePlatform(BookingPlatform bookingPlatform);
+        IEnumerable<BookingPlatform> GetFilterPlatform(string name, string url);
+        bool IsPlatformNameExists(string name, string url, int id);
     }
 }

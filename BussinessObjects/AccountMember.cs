@@ -16,4 +16,8 @@ public partial class AccountMember
     public string? Role { get; set; }
 
     public bool? Enable { get; set; }
+
+    public string? Gender { get; set; }
+
+    public DateOnly? Dob { get; set; }
 }

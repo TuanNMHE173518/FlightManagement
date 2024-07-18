@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFProject2", "WPFProject\WPFProject2.csproj", "{82ECEFB0-441B-451E-9598-BEF3A7DF5E61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFProject", "WPFProject\WPFProject.csproj", "{82ECEFB0-441B-451E-9598-BEF3A7DF5E61}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussinessObjects", "BussinessObjects\BussinessObjects.csproj", "{B471A640-2E0F-47D5-B515-59E129313C16}"
 EndProject

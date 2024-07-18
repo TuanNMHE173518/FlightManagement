@@ -41,7 +41,11 @@ namespace WPFProject2
             lvBaggage.ItemsSource = null;
             var foundBagge = baggageService.GetBaggagesByBookingID(Int32.Parse(bookingId));
             lvBaggage.ItemsSource = foundBagge;
-            if(foundBagge.IsNullOrEmpty()) {
+            Booking booking = bookingService.GetBookingById(Int32.Parse(bookingId));
+            //txtBooking.Text = bookingId;
+            //txtPassenger.Text = booking.Passenger.FirstName + " "+ booking.Passenger.LastName;
+            
+            if (foundBagge.IsNullOrEmpty()) {
                 lvBaggage.Visibility = Visibility.Collapsed;
             }
             else
@@ -71,21 +75,48 @@ namespace WPFProject2
                 MessageBox.Show($"Booking with ID: {bookingId} has been cancelled!");
                 return;
             }
-            
-            Decimal weight = 0;
-            if (Decimal.TryParse(txtWeight.Text, out weight) && weight > 0)
+            if(cbBaggageType.SelectedValue != null)
             {
-                Baggage baggage = new Baggage();
-                baggage.WeightInKg = weight;
-                baggage.BookingId = Int32.Parse(bookingId); 
+                Decimal weight = 0;
+                Decimal baggageType = 0;
+                foreach (ComboBoxItem cb in cbBaggageType.Items)
+                {
+                    if (cb.IsSelected == true)
+                    {
+                        baggageType = Decimal.Parse(cb.Tag.ToString());
+                    }
+                }
+                if (Decimal.TryParse(txtWeight.Text, out weight) && weight > 0 && weight <= baggageType)
+                {
+                    Decimal totalBaggage = baggageService.GetBaggagesByBookingID(Int32.Parse(bookingId)).Sum(b => b.WeightInKg).Value;
+                    if ((totalBaggage + weight) <= 50)
+                    {
 
-                baggageService.AddBaggage(baggage);
-                LoadBaggage();
+                        Baggage baggage = new Baggage();
+                        baggage.WeightInKg = weight;
+                        baggage.BookingId = Int32.Parse(bookingId);
+
+                        baggageService.AddBaggage(baggage);
+                        LoadBaggage();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"The total baggage weight of this booking is greater than 50 kg!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"You must input a number > 0 and < {baggageType}!");
+
+                }
             }
             else
             {
-                MessageBox.Show("You must input a number > 0!");
+                MessageBox.Show("You must choose baggage type!");
+
             }
+
+
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -99,18 +130,44 @@ namespace WPFProject2
             }
             if (txtBaggage.Text.Length > 0)
             {
-                int id = Int32.Parse(txtBaggage.Text);
-                Decimal weight = 0;
-                if(Decimal.TryParse(txtWeight.Text,out weight) && weight >0)
+                if (cbBaggageType.SelectedValue != null)
                 {
-                    Baggage baggage = baggageService.GetBaggageById(id);
-                    baggage.WeightInKg = weight;
-                    baggageService.UpdateBaggage(baggage);
-                    LoadBaggage();
+                    int id = Int32.Parse(txtBaggage.Text);
+                    Decimal weight = 0;
+                    Decimal baggageType = 0;
+                    foreach (ComboBoxItem cb in cbBaggageType.Items)
+                    {
+                        if (cb.IsSelected == true)
+                        {
+                            baggageType = Decimal.Parse(cb.Tag.ToString());
+                        }
+                    }
+
+                    if (Decimal.TryParse(txtWeight.Text, out weight) && weight > 0 && weight <= baggageType)
+                    {
+                        Decimal totalBaggage = baggageService.GetBaggagesByBookingID(Int32.Parse(bookingId)).Sum(b => b.WeightInKg).Value;
+                        if ((totalBaggage + weight ) <= 50) {
+
+                            Baggage baggage = baggageService.GetBaggageById(id);
+                            baggage.WeightInKg = weight;
+                            baggageService.UpdateBaggage(baggage);
+                            LoadBaggage();
+                        }
+                        else
+                        {
+                            MessageBox.Show($"The total baggage weight of this booking is greater than 50 kg!");
+                        }
+                        
+                    }
+                    else
+                    {
+                        MessageBox.Show($"You must input a number > 0 and < {baggageType}!");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("You must input a number > 0!");
+                    MessageBox.Show("You must choose baggage type!");
+
                 }
 
             }
@@ -129,7 +186,7 @@ namespace WPFProject2
                 {
                     window.Show();
                 }
-                else if (window is PersonalBooking) { }
+                else if (window is PersonalBooking) 
                 {
                     window.Show();
                 }
@@ -252,5 +309,7 @@ namespace WPFProject2
                 Application.Current.Shutdown();
             }
         }
+
+        
     }
 }

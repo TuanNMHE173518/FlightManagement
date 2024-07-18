@@ -14,7 +14,7 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                 <TextBlock Style="{StaticResource titleText}" Margin="0,20,0,0" Text="Create new account" Foreground="#FF159D93" FontFamily="Segoe UI Variable Display"></TextBlock>
 
-                <Border Width="500" Margin="0,60,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                <Border Width="500" Margin="0,30,0,0" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
                     <Grid Margin="10,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -52,10 +52,20 @@
                     </Grid>
 
                 </Border>
-                <StackPanel Margin="0,30,0,0" Orientation="Horizontal">
-                    <RadioButton HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" x:Name="rbAdmin" Content="Admin" FontSize="26" FontWeight="Medium"></RadioButton>
-                    <RadioButton HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" x:Name="rbStaff" Margin="30,0,0,0" FontSize="26" FontWeight="Medium" Content="Staff"></RadioButton>
-                </StackPanel>
+                <GroupBox BorderThickness="2" Margin="0,15,0,0" Header="Gender" FontSize="20" Foreground="#DDA6A6A6" >
+                    
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <RadioButton HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" x:Name="rbMale"  Content="Male" FontSize="20" FontWeight="Medium"></RadioButton>
+                        <RadioButton HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" x:Name="rbFemale" IsChecked="True" Margin="30,0,0,0" FontSize="20" FontWeight="Medium" Content="Female"></RadioButton>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox BorderThickness="2" Margin="0,15,0,0" Header="Role" FontSize="20" Foreground="#DDA6A6A6" >
+                    <StackPanel Margin="5"  Orientation="Horizontal">
+                        <RadioButton HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" x:Name="rbAdmin" Content="Admin" FontSize="20" FontWeight="Medium"></RadioButton>
+                        <RadioButton HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" x:Name="rbStaff" Margin="30,0,0,0" FontSize="20" FontWeight="Medium" Content="Staff"></RadioButton>
+                    </StackPanel>
+                </GroupBox>
+                
 
                 <Button Margin="0,30,0,10" x:Name="btnCreate" Click="btnCreate_Click" Content="Create" FontFamily="Segoe UI Variable Display" Foreground="White" FontWeight="DemiBold" Style="{StaticResource buttonLogin}"></Button>
             </StackPanel>

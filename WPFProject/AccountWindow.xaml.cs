@@ -104,6 +104,8 @@ namespace WPFProject
                     txtFullName.Text = account.FullName;
                     if(account.Role.Equals("Admin")) rbAdmin.IsChecked = true;
                     if(account.Role.Equals("Staff")) rbStaff.IsChecked = true;
+                    if(account.Role.Equals("Super Admin")) rbSuperAdmin.IsChecked = true;
+                    
                 }
             }
         }
@@ -141,9 +143,17 @@ namespace WPFProject
                 if (result == MessageBoxResult.Yes)
                 {
                     AccountMember account = accountMemberService.GetAccountById(Int32.Parse(txtId.Text));
-                    account.Enable = false;
-                    accountMemberService.UpdateAccount(account);
-                    LoadAccounts();
+                    if(account.Role.Equals("Super Admin"))
+                    {
+                        MessageBox.Show("You can't block account of Super Admin","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        account.Enable = false;
+                        accountMemberService.UpdateAccount(account);
+                        LoadAccounts();
+                    }
+                    
                 }
             }
             else
@@ -160,9 +170,18 @@ namespace WPFProject
                 if (result == MessageBoxResult.Yes)
                 {
                     AccountMember account = accountMemberService.GetAccountById(Int32.Parse(txtId.Text));
-                    account.Enable = true;
-                    accountMemberService.UpdateAccount(account);
-                    LoadAccounts();
+                    if (account.Role.Equals("Super Admin"))
+                    {
+                        MessageBox.Show("You can't block account of Super Admin", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        account.Enable = true;
+                        accountMemberService.UpdateAccount(account);
+                        LoadAccounts();
+                       
+                    }
+                    
                 }
             }
             else
@@ -175,20 +194,37 @@ namespace WPFProject
         {
             if (txtId.Text.Length > 0)
             {
-               
+                
                 AccountMember account = accountMemberService.GetAccountById(Int32.Parse(txtId.Text));
-                account.FullName = txtFullName.Text;
-                account.Email = txtEmail.Text;
-                if(rbAdmin.IsChecked == true)
-                {
-                    account.Role = "Admin";
+                if(account.Role.Equals("Super Admin")) {
+                    MessageBox.Show("You can't edit information of Super Admin");
                 }
-                if (rbStaff.IsChecked == true)
+                else
                 {
-                    account.Role = "Staff";
+                    if (rbSuperAdmin.IsChecked == true)
+                    {
+                        MessageBox.Show("It is not allowed to have 2 Super Admins in the system");
+                    }
+                    else
+                    {
+                        account.FullName = txtFullName.Text;
+                        account.Email = txtEmail.Text;
+                        if (rbAdmin.IsChecked == true)
+                        {
+                            account.Role = "Admin";
+                        }
+                        if (rbStaff.IsChecked == true)
+                        {
+                            account.Role = "Staff";
+                        }
+
+                        accountMemberService.UpdateAccount(account);
+                        LoadAccounts();
+                        MessageBox.Show("Update successfully");
+                    }
+                   
                 }
-                accountMemberService.UpdateAccount(account);
-                LoadAccounts();
+                
                 
             }
             else
@@ -199,14 +235,14 @@ namespace WPFProject
 
         private void txtBlockSignUp_MouseEnter(object sender, MouseEventArgs e)
         {
-            txtBlockSignUp.Foreground = new SolidColorBrush(Colors.DarkCyan);
+            txtBlockSignUp.Foreground = new SolidColorBrush(Colors.Red);
         }
 
 
 
         private void txtBlockSignUp_MouseLeave(object sender, MouseEventArgs e)
         {
-            txtBlockSignUp.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlockSignUp.Foreground = new SolidColorBrush(Colors.IndianRed);
 
         }
 
@@ -253,6 +289,7 @@ namespace WPFProject
                 var foundAccount = accountMemberService.FindByRole(cbFilterRole.SelectedValue.ToString()).ToList();
                 dgAccount.ItemsSource = null;
                 dgAccount.ItemsSource = foundAccount;
+               
             }
         }
 
@@ -285,23 +322,8 @@ namespace WPFProject
 
         }
 
-        private void txtChangePassword_MouseEnter(object sender, MouseEventArgs e)
-        {
-            txtChangePassword.Foreground = new SolidColorBrush(Colors.Red);
-        }
+        
 
-        private void txtChangePassword_MouseLeave(object sender, MouseEventArgs e)
-        {
-            txtChangePassword.Foreground = new SolidColorBrush(Colors.IndianRed);
-        }
-
-        private void txtChangePassword_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-           
-            ChangePasswordWindow changePasswordWindow = new ChangePasswordWindow(yourAcccount);
-            changePasswordWindow.Show();
-            this.Hide();
-            
-        }
+        
     }
 }

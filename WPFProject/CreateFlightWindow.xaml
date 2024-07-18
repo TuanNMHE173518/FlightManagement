@@ -4,13 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFProject2" xmlns:local1="clr-namespace:WPFProject2.Resource"
         mc:Ignorable="d"
         Title="CreateFlightWindow" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Window.Resources>
-        <local1:StatusConverter x:Key="StatusConverter"/>
+        
+        <ResourceDictionary>
+            <local1:StatusConverter x:Key="StatusConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    <Border  CornerRadius="20" Background="#FF353965">
+    <Border  CornerRadius="20" Background="#FF516A83">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -19,7 +29,8 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
                 
 
             </Grid.ColumnDefinitions>
@@ -36,201 +47,317 @@
                 <RowDefinition Height="0.25*"></RowDefinition>
 
             </Grid.RowDefinitions>
-            <Button Grid.Column="6" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                    Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
+            <Button Grid.Column="7"  x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                    Margin="10,10,50,10" Background="Transparent"  BorderBrush="Transparent" 
                     FontSize="20" Click="btnMaximize_Click"/>
-            <Button Grid.Column="6" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                    Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                    FontSize="20" Click="btnCloseAll_Click"/>  
-            <Border Grid.Row="0" Grid.ColumnSpan="7" Grid.Column="0" Background="#FFDDE7F3" CornerRadius="40" Margin="200,10" >
+            <materialDesign:PackIcon  Panel.ZIndex="1" Kind="WindowMaximize" Foreground="Snow" Grid.Column="7" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                    Margin="10,10,50,10"/>
+            <Button Grid.Column="7"  x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                    Margin="10" Background="Transparent"  BorderBrush="Transparent" 
+                    FontSize="20" Click="btnCloseAll_Click">
+                
+            </Button>
+            <materialDesign:PackIcon Kind="WindowClose" Panel.ZIndex="1" Foreground="Snow" Grid.Column="7" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
+                    Margin="10"/>
+            <Border Grid.Row="0" Grid.ColumnSpan="8" Grid.Column="0" Background="#FFDDE7F3" CornerRadius="40" Margin="200,10" >
                 <Label Content="Create Flight" Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="1"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="50" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
-            <Button Grid.ColumnSpan="2" x:Name="btnBack" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="30" Width="120" FontSize="12" Background="Transparent"  BorderBrush="#FFFBB3FB" BorderThickness="3" Foreground="White" FontWeight="Medium">
+            <Button Grid.ColumnSpan="2" x:Name="btnBack" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="40" Width="120"    Foreground="White" FontWeight="Medium">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"></Setter>
                         
                     </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="Background" Value="#FF002245"></Setter>
+                    </Style>
                 </Button.Resources>
             </Button>
-            <GroupBox Header="Flight Setup" Grid.Row="1" FontSize="30" FontWeight="Medium" Foreground="White" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="7">
-                
+            <GroupBox BorderBrush="Transparent" BorderThickness="0"  Grid.Row="1" FontSize="30" FontWeight="Medium" Foreground="White" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="7">
+                <GroupBox.Header>
+                    <Label Background="AliceBlue" BorderBrush="Transparent" BorderThickness="0" Padding="10" Content="Flight Setup"></Label>
+                </GroupBox.Header>
             </GroupBox>
-            <Border Grid.Row="2" Grid.RowSpan="2"  Grid.Column="0" Background="#FF002245" CornerRadius="15" Margin="10,20,10,20">
+            <Border Grid.Row="2" Grid.RowSpan="2"  Grid.Column="0" Background="White" CornerRadius="15" Margin="10,20,10,20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Flight ID" FontWeight="Medium" FontSize="14" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <TextBox IsReadOnly="True" x:Name="txtID" Margin="10" FontSize="14"></TextBox>
+                    <Label Content="Flight ID" FontWeight="Medium" FontSize="14" Foreground="#FF002245" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <TextBox IsReadOnly="True" BorderBrush="#FF002245" BorderThickness="1" x:Name="txtID" Margin="10" FontSize="14"></TextBox>
                 </StackPanel>
             </Border>
-            <Border Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Background="#FF002245" CornerRadius="15" Margin="10,20,10,20">
+            <Border Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Background="White" CornerRadius="15" Margin="10,20,10,20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Departing Airport" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbFrom"  Margin="10" Padding="5"></ComboBox>
-                </StackPanel>
-            </Border>
-
-            <Border Grid.Row="2" Grid.RowSpan="2"  Grid.Column="2" Background="#FF002245" CornerRadius="15" Margin="10,20,10,20">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Arriving Airport" FontWeight="Medium" FontSize="14" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbTo" Margin="10" Padding="5"></ComboBox>
+                    <Label Content="Departing Airport" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox BorderBrush="#FF002245" Background="White" BorderThickness="1"  x:Name="cbFrom"  Margin="10" Padding="5"></ComboBox>
                 </StackPanel>
             </Border>
 
-            <Border Grid.Row="4" Grid.ColumnSpan="2"  Grid.Column="0" Background="#FF002245" CornerRadius="15" Margin="30,15,90,15">
+            <Border Grid.Row="2" Grid.RowSpan="2"  Grid.Column="2" Background="White" CornerRadius="15" Margin="10,20,10,20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Departure Date" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <xctk:DateTimePicker x:Name="dtDeparture" Margin="10"  FontSize="14"></xctk:DateTimePicker>
+                    <Label Content="Arriving Airport" FontWeight="Medium" FontSize="14" Foreground="#FF002245" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox BorderBrush="#FF002245" Background="White" BorderThickness="1" x:Name="cbTo" Margin="10" Padding="5"></ComboBox>
                 </StackPanel>
             </Border>
-            <Border Grid.Row="4"  Grid.ColumnSpan="2" Grid.Column="1" Background="#FF002245" CornerRadius="15" Margin="90,15,30,15">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Arrival Date" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <xctk:DateTimePicker x:Name="dtArrival" Margin="10"  FontSize="14"></xctk:DateTimePicker>
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="5"   Grid.Column="0" Background="#FF002245" CornerRadius="15" Margin="10,20,10,20">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Airline" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbAirline" Margin="10" Padding="5"></ComboBox>
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="5"   Grid.Column="1" Background="#FF002245" CornerRadius="15" Margin="10,20,10,20">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Departing Gate" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <TextBox x:Name="txtDepartureGate" Margin="10"  FontSize="14"></TextBox>
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="5"   Grid.Column="2" Background="#FF002245" CornerRadius="15" Margin="10,20,10,20">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Arriving Gate" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <TextBox x:Name="txtArrivalGate" Margin="10"  FontSize="14"></TextBox>
-                </StackPanel>
-            </Border>
-            <Button x:Name="btnAdd" Grid.ColumnSpan="2"  Grid.Row="6" Content="Set up" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="0" Background="#FF37B3C1" Margin="60,30,100,30" Click="btnAdd_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="20"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button x:Name="btnUpdate" Grid.ColumnSpan="2"  Grid.Row="6" Content="Update" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="1" Background="#FF37B3C1" Margin="100,30,60,30" Click="btnUpdate_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="20"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button x:Name="btnDelete" Grid.ColumnSpan="2"  Grid.Row="7" Content="Cancel Flight" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="0" Background="#FFAD3838"  Margin="60,30,100,30" Click="btnDelete_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="20"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
 
-            <Button x:Name="btnActive" Grid.ColumnSpan="2"  Grid.Row="7" Content="Activate flight" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="1" Background="#FFAD3838"   Margin="100,30,60,30" Click="btnActive_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="20"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <Border Grid.Row="4"   Grid.Column="0"  Background="White" CornerRadius="15" Margin="10,20,10,20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Departure Date" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
 
-            <Border Grid.Row="1" Grid.RowSpan="2" Margin="10,10,5,50" Grid.Column="3" Background="#FFC7B763" CornerRadius="15" >
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Status" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbSearchStatus"   FontSize="10"></ComboBox>
+                    <DatePicker BorderBrush="#FF002245"   BorderThickness="1" x:Name="dtDeparture" Margin="10"  FontSize="14"></DatePicker>
                 </StackPanel>
             </Border>
-            <Border Grid.Row="1"  Grid.RowSpan="2" Margin="10,10,5,50"  Grid.Column="4" Background="#FFC7B763" CornerRadius="15" >
+            <Border Grid.Row="4" Grid.Column="1" Background="White" CornerRadius="15" Margin="10,20,10,20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Departing Time" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <xctk:DateTimePicker x:Name="dtSearchDepature"   FontSize="10"></xctk:DateTimePicker>
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="1"  Grid.RowSpan="2" Grid.Column="5"  Margin="10,10,5,50" Background="#FFC7B763" CornerRadius="15" >
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Arriving Time" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <xctk:DateTimePicker x:Name="dtSearchArrival"   FontSize="10"></xctk:DateTimePicker>
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="2" Grid.RowSpan="2"  Margin="10,20,5,40" Grid.Column="3" Background="#FFC7B763" CornerRadius="15" >
-                <StackPanel Orientation="Vertical">
-                    <Label Content="From" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbSearchFrom"   FontSize="10"></ComboBox>
+                    <Label Content="Depature Time" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <materialDesign:TimePicker
+                        Margin="10"
+                        x:Name="timeDeparture"
+                        Width="100"
+                        Is24Hours="True"
+                        Foreground="#FF002245"
+                        BorderBrush="#FF002245"
+                        /> 
                 </StackPanel>
                 
             </Border>
 
-            <Border Grid.Row="2" Grid.RowSpan="2"  Margin="10,20,5,40" Grid.Column="4" Background="#FFC7B763" CornerRadius="15" >
+            <Border Grid.Row="5"   Grid.Column="0" Background="White" CornerRadius="15" Margin="10,20,10,20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="To" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbSearchTo"   FontSize="10"></ComboBox>
-                </StackPanel>
-                
-            </Border>
-            <Border Grid.Row="2" Grid.RowSpan="2"  Margin="10,20,5,40" Grid.Column="5" Background="#FFC7B763" CornerRadius="15" >
-                
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Airline" FontWeight="Medium" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbSearchAirline"   FontSize="10"></ComboBox>
+                    <Label Content="Arrival Date" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtArrival" BorderBrush="#FF002245"   BorderThickness="1" Margin="10"  FontSize="14"></DatePicker>
                 </StackPanel>
             </Border>
+            <Border Grid.Row="5" Grid.Column="1" Background="White" CornerRadius="15" Margin="10,20,10,20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Arrival Time" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <materialDesign:TimePicker
+                        Margin="10"
+                        x:Name="timeArrival"
+                        Width="100"
+                        Is24Hours="True"
+                        Foreground="#FF002245"
+                        BorderBrush="#FF002245" 
+                         />
+                </StackPanel>
 
-            <Button x:Name="btnSearch" Grid.RowSpan="2" Grid.Column="7"  Grid.Row="1" Content="Search" FontSize="28" FontWeight="Medium" Foreground="White" Background="#FF38AD97" Margin="50,10,50,50" Click="btnSearch_Click">
+            </Border>
+            <Border Grid.Row="4"   Grid.Column="2" Grid.RowSpan="2" Background="White" CornerRadius="15" Margin="10,77,10,77">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Number Passengers" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <TextBox x:Name="txtNumberPassengers" BorderBrush="#FF002245" BorderThickness="1" PreviewTextInput="txtNumberPassengers_PreviewTextInput" Margin="10" Padding="5"></TextBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="6"   Grid.Column="0" Background="White" CornerRadius="15" Margin="10,20,10,20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Airline" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbAirline" BorderBrush="#FF002245" Background="White" BorderThickness="1" Margin="10" Padding="5"></ComboBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="6"   Grid.Column="1" Background="White" CornerRadius="15" Margin="10,20,10,20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Departing Gate" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <TextBox x:Name="txtDepartureGate" BorderBrush="#FF002245" BorderThickness="1" Margin="10"  FontSize="14"></TextBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="6"   Grid.Column="2" Background="White" CornerRadius="15" Margin="10,20,10,20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Arriving Gate" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <TextBox x:Name="txtArrivalGate" BorderBrush="#FF002245" BorderThickness="1" Margin="10"  FontSize="14"></TextBox>
+                </StackPanel>
+            </Border>
+            
+            <Button x:Name="btnAdd" Grid.ColumnSpan="2"  Grid.Row="6" Grid.RowSpan="2" Content="Set up"  FontWeight="Medium" Foreground="White" Grid.Column="0" Background="#FF37B3C1" Margin="60,120,100,70" Click="btnAdd_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="15"></Setter>
                     </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btnReset" Grid.RowSpan="2" Grid.Column="7"  Grid.Row="2" Content="Reset" FontSize="28" FontWeight="Medium" Foreground="White" Background="#FFB940AF" Margin="50,20,50,40" Click="btnReset_Click">
+            <Button x:Name="btnUpdate" Grid.ColumnSpan="2"  Grid.Row="6" Grid.RowSpan="2" Content="Update"  FontWeight="Medium" Foreground="White" Grid.Column="1" Background="#FF37B3C1" Margin="100,120,60,70" Click="btnUpdate_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="15"></Setter>
                     </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnDelete" Grid.ColumnSpan="2"  Grid.Row="7" Content="Cancel Flight" FontSize="18" FontWeight="Medium" Foreground="White" Grid.Column="0" Background="#FFAD3838"  Margin="60,60,100,10" Click="btnDelete_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"></Setter>
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
                 </Button.Resources>
             </Button>
 
+            <Button x:Name="btnActive" Grid.ColumnSpan="2"  Grid.Row="7" Content="Activate flight" FontSize="18" FontWeight="Medium" Foreground="White" Grid.Column="1" Background="#FFAD3838"   Margin="100,60,60,10" Click="btnActive_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"></Setter>
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
 
-            <ListView x:Name="lvFlight" SelectionChanged="lvFlight_SelectionChanged" Grid.Row="3" Grid.Column="3" FontSize="12" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="30,30,0,0">
+            <Border Grid.Row="1" Grid.RowSpan="2" Margin="10,10,5,50" Grid.Column="3" Background="White" CornerRadius="15" >
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Status" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbSearchStatus" Margin="10,0,10,0" BorderBrush="#FF002245"  BorderThickness="1" FontSize="10"></ComboBox>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1"  Grid.RowSpan="2" Margin="10,10,5,50"  Grid.Column="4" Background="White" CornerRadius="15" >
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Departing Time" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtSearchDepature" Margin="10,0,10,0" BorderBrush="#FF002245"  BorderThickness="1"  FontSize="10"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1"  Grid.RowSpan="2" Grid.Column="5"  Margin="10,10,5,50" Background="White" CornerRadius="15" >
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Arriving Time" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <DatePicker x:Name="dtSearchArrival" Margin="10,0,10,0" BorderBrush="#FF002245"  BorderThickness="1"  FontSize="10"></DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" Grid.RowSpan="2"  Margin="10,20,5,40" Grid.Column="3" Background="White" CornerRadius="15" >
+                <StackPanel Orientation="Vertical">
+                    <Label Content="From" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbSearchFrom" Margin="10,0,10,0" BorderBrush="#FF002245"  BorderThickness="1"  FontSize="10"></ComboBox>
+                </StackPanel>
+                
+            </Border>
+
+            <Border Grid.Row="2" Grid.RowSpan="2"  Margin="10,20,5,40" Grid.Column="4" Background="White" CornerRadius="15" >
+                <StackPanel Orientation="Vertical">
+                    <Label Content="To" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbSearchTo" Margin="10,0,10,0" BorderBrush="#FF002245"  BorderThickness="1"  FontSize="10"></ComboBox>
+                </StackPanel>
+                
+            </Border>
+            <Border Grid.Row="2" Grid.RowSpan="2"  Margin="10,20,5,40" Grid.Column="5" Background="White" CornerRadius="15" >
+                
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Airline" FontWeight="Medium" Foreground="#FF002245" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox x:Name="cbSearchAirline" Margin="10,0,10,0" BorderBrush="#FF002245"  BorderThickness="1"  FontSize="10"></ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Button x:Name="btnSearch" Grid.Column="6"  Grid.Row="1" Content="Search" FontSize="20" FontWeight="Medium" Foreground="White" Background="#FF38AD97" Margin="10" Click="btnSearch_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"></Setter>
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnReset"  Grid.Column="7"  Grid.Row="1" Content="Reset" FontSize="20" FontWeight="Medium" Foreground="White" Background="#FFB940AF" Margin="10" Click="btnReset_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"></Setter>
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <StackPanel HorizontalAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="6" Grid.Row="2" Orientation="Horizontal">
+                
+
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button FontWeight="Medium" x:Name="btnPrevious" Foreground="Black" Padding="5,0" Margin="5" Grid.Column="0" Grid.Row="1"  Width="60" Content="Prev" Click="btnPrevious_Click" Background="#FFFEFAFA">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <TextBlock Grid.Row="0" FontSize="12" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Medium" x:Name="txtPageInfo" Text="" Foreground="#FFFFBDBD"/>
+                    <Button FontWeight="Medium" x:Name="btnNext" Foreground="Black"  Padding="5,0" Margin="5" Grid.Column="1" Grid.Row="1"  Width="60" Content="Next" Click="btnNext_Click" Background="#FFFEFAFA">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                </Grid>
+                <Border Width="70" Background="White" Margin="5,45,5,45" Grid.Row="1" Grid.Column="2" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+
+
+                        <TextBlock Margin="0" MouseDown="txtBlockPageNumber_MouseDown"  FontSize="12" x:Name="txtBlockPageNumber"  Text="Page" Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox Margin="0" FontSize="12" Style="{StaticResource titleTextBox}" x:Name="txtPageNumber" TextChanged="txtPageNumber_TextChanged"   BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Button FontWeight="Medium" x:Name="btnGo"  Background="#FFFEFAFA" Margin="5,45,25,45" Width="60" Foreground="Black" Content="Go" Click="btnGo_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4"></Setter>
+                           
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+
+            <ListView OverridesDefaultStyle="True" x:Name="lvFlight" Foreground="White" SelectionChanged="lvFlight_SelectionChanged" Grid.Row="3" Grid.Column="3" FontSize="12" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="30,30,0,0">
+                
                 <ListView.Resources>
-
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Border x:Name="Border" BorderThickness="1" CornerRadius="20" BorderBrush="Gray" Background="{TemplateBinding Background}" Margin="5">
-                                        <Grid>
-                                            <GridViewRowPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Background" Value="#FF159D93"/>
-                        <Setter Property="Foreground" Value="White"/>
-
-                    </Style>
+                   
+              
                     <Style TargetType="GridViewColumnHeader">
-                        <Setter Property="Padding" Value="5"></Setter>
-                        <Setter Property="FontSize" Value="12"></Setter>
+                        <Setter Property="Padding" Value="3" />
+                        <Setter Property="Foreground" Value="#FF002245"/>
+                        
+                        <Setter Property="FontSize" Value="13" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
                     </Style>
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="40" Header="ID" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
-                        <GridViewColumn Width="110" Header="Airline"  DisplayMemberBinding="{Binding Airline.Name}"/>
-                        <GridViewColumn Width="215" Header="Departing Airport">
+                        <GridViewColumn Width="100" Header="Airline">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding Airline.Code}" Margin="5"/>
+                                        <TextBlock Text="{Binding Airline.Name}" FontSize="10" Margin="5"/>
+                                       
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="207" Header="Departing Airport">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -243,7 +370,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="215" Header="Arriving Airport">
+                        <GridViewColumn Width="207" Header="Arriving Airport">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -255,9 +382,10 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="D Gate" Width="50" DisplayMemberBinding="{Binding DepartingGate}"></GridViewColumn>
-                        <GridViewColumn Header="A Gate" Width="50" DisplayMemberBinding="{Binding ArrivingGate}"></GridViewColumn>
-                        <GridViewColumn Width="90"  Header="Status">
+                        <GridViewColumn Header="D Gate" Width="47" DisplayMemberBinding="{Binding DepartingGate}"></GridViewColumn>
+                        <GridViewColumn Header="A Gate" Width="47" DisplayMemberBinding="{Binding ArrivingGate}"></GridViewColumn>
+                        <GridViewColumn Header="Seats" Width="60" DisplayMemberBinding="{Binding NumberPassengers}"></GridViewColumn>
+                        <GridViewColumn Width="75"  Header="Status">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Status, Converter={StaticResource StatusConverter}}"></TextBlock>

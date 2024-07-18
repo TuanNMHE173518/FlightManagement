@@ -59,9 +59,7 @@ namespace WPFProject2
             lvBookingHistory.ItemsSource = null;
             var bookinginfor = bookingService.GetPersonalBookingInfor(Int32.Parse(passengerId)).OrderByDescending(b => b.BookingTime);
             lvBookingHistory.ItemsSource = bookinginfor;
-            cbAirline.ItemsSource = null;
-            cbFrom.ItemsSource = null;
-            cbTo.ItemsSource = null;
+            
             var statusOptions = new List<MappingStatus>
             {
                 new MappingStatus(){ Value = true, DisplayName = "Normal"},
@@ -71,42 +69,20 @@ namespace WPFProject2
             cbStatus.SelectedValuePath = "Value";
             cbStatus.DisplayMemberPath = "DisplayName";
             cbStatus.SelectedValue = true;
-            LoadAirLines();
-            LoadAirports();
+            
 
 
 
         }
 
-        private void LoadAirLines()
-        {
-            cbAirline.ItemsSource = null;
-            var airlines = airlineService.GetAllAirlines();
-            cbAirline.ItemsSource = airlines.OrderBy(a => a.Name);
-            cbAirline.SelectedValuePath = "Code";
-            cbAirline.DisplayMemberPath = "Name";
-
-        }
+        
 
 
-        private void LoadAirports()
-        {
-            cbFrom.ItemsSource = null;
-            cbTo.ItemsSource = null;
-            var airports = airportService.GetAllAirports();
-            cbFrom.ItemsSource = airports.OrderBy(a => a.Name);
-            cbTo.ItemsSource = airports.OrderBy(a => a.Name);
-            cbTo.SelectedValuePath = "Code";
-            cbTo.DisplayMemberPath = "Name";
-            cbFrom.SelectedValuePath = "Code";
-            cbFrom.DisplayMemberPath = "Name";
-        }
+        
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            string airlineId = cbAirline.SelectedValue == null ? null : cbAirline.SelectedValue.ToString();
-            string from = cbFrom.SelectedValue == null ? null : cbFrom.SelectedValue.ToString();
-            string to = cbTo.SelectedValue == null ? null : cbTo.SelectedValue.ToString();
+            
             bool status = bool.Parse(cbStatus.SelectedValue.ToString());
             DateTime? departureDate = null;
             DateTime? bookingDate = null;
@@ -123,7 +99,7 @@ namespace WPFProject2
             {
                 bookingDate = dtBook.SelectedDate.Value;
             }
-            var foundBooking = bookingService.FindPersonalBookingByAirlineAirportAnddate(from, to, airlineId, departureDate,arrivalDate, bookingDate, status, Int32.Parse(passengerId));
+            var foundBooking = bookingService.FindPersonalBookingByAirlineAirportAnddate(departureDate,arrivalDate, bookingDate, status, Int32.Parse(passengerId));
             lvBookingHistory.ItemsSource = null;
             lvBookingHistory.ItemsSource = foundBooking;
 
@@ -134,9 +110,7 @@ namespace WPFProject2
             LoadBookingHistorys();
             dtBook.SelectedDate = null;
             dtDeparture.SelectedDate = null;
-            cbAirline.SelectedValue = null;
-            cbFrom.SelectedValue = null;
-            cbTo.SelectedValue = null;
+            dtArrival.SelectedDate = null;
             cbStatus.SelectedValue = true;
         }
 

@@ -5,10 +5,12 @@ using OfficeOpenXml;
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,19 +32,81 @@ namespace WPFProject2
     {
 
         private readonly IPassengerService passengerService;
+        private ObservableCollection<Passenger> allPassengers;
+        private int itemsPerPage;
+        private int currentPage;
         public ManagePassengerWindow()
         {
             InitializeComponent();
             passengerService = new PassengerService();
+            allPassengers = new ObservableCollection<Passenger>();
+            itemsPerPage = 100;
+            currentPage = 1;
             LoadPassenger();
         }
 
         private void LoadPassenger()
         {
-            dgPassenger.ItemsSource = null;
-            var passengers = passengerService.GetAll();
-            dgPassenger.ItemsSource = passengers;
+            allPassengers = new ObservableCollection<Passenger>(passengerService.FindPassengersByNameEmailAndAge("","",0,0));
+            DisplayPage(currentPage);
+        }
 
+        private void DisplayPage(int pageNumber)
+        {
+            int start = (pageNumber - 1) * itemsPerPage;
+            var passengers = allPassengers.Skip(start).Take(itemsPerPage).ToList();
+            dgPassenger.ItemsSource = passengers;
+            txtPageInfo.Text = $"Page {currentPage} of {Math.Ceiling((double)allPassengers.Count / itemsPerPage)}";
+        }
+
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            if(currentPage  > 1)
+            {
+                currentPage--;
+                DisplayPage(currentPage);
+            }
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage < Math.Ceiling((double)allPassengers.Count / itemsPerPage))
+            {
+                currentPage++;
+                DisplayPage(currentPage);
+            }
+        }
+
+        private void btnGo_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(txtPageNumber.Text, out int pageNumber))
+            {
+                int totalPages = (int)Math.Ceiling((double)allPassengers.Count / itemsPerPage);
+                if (pageNumber > 0 && pageNumber <= totalPages)
+                {
+                    currentPage = pageNumber;
+                    DisplayPage(currentPage);
+                }
+                else
+                {
+                    MessageBox.Show($"Please enter a valid page number between 1 and {totalPages}.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid page number.");
+            }
+        }
+
+        private void txtPageNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextNumeric(e.Text);
+        }
+
+        private static bool IsTextNumeric(string text)
+        {
+            Regex regex = new Regex("[^0-9]+"); 
+            return !regex.IsMatch(text);
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
@@ -369,9 +433,10 @@ namespace WPFProject2
 
             string name = txtFilterName.Text;
             string email = txtFilterEmail.Text;
-            var foundPassenger = passengerService.FindPassengersByNameEmailAndAge(name, email,ageFrom,ageTo);
-            dgPassenger.ItemsSource = null;
-            dgPassenger.ItemsSource = foundPassenger;
+            allPassengers = new ObservableCollection<Passenger>(passengerService.FindPassengersByNameEmailAndAge(name, email, ageFrom, ageTo));
+           
+            currentPage = 1;
+            DisplayPage(currentPage);
 
         }
 
@@ -384,90 +449,24 @@ namespace WPFProject2
             }
         }
 
-        private void btnExportData_Click(object sender, RoutedEventArgs e)
-        {
-            var savefileDialog = new SaveFileDialog();
-            savefileDialog.Filter = "JSON File (*.json)|*.json";
-            savefileDialog.DefaultExt = "*.json";
-            List<Passenger> passengers = dgPassenger.ItemsSource as List<Passenger>;
-            if(savefileDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    string filePath = savefileDialog.FileName;
-                    string extension = Path.GetExtension(filePath).ToLower();
-                    switch (extension)
-                    {
-                        case ".json":
-                            string jsonData = JsonSerializer.Serialize<List<Passenger>>(passengers);
-                            File.WriteAllText(filePath, jsonData);
-                            break;
-                      
-                        default:
-                            throw new Exception("Unsupported file format");
+       
 
-                    }
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+        private void txtPageNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPageNumber.Text) && txtPageNumber.Text.Length > 0)
+            {
+                txtBlockPageNumber.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                txtBlockPageNumber.Visibility = Visibility.Visible;
             }
         }
 
-        //private void btnImportData_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var dialog =  new OpenFileDialog();
-        //    dialog.Filter = "JSON Files (*.json)|*.json";
-        //    dialog.DefaultExt = "*.json";
-
-        //    bool? result = dialog.ShowDialog();
-        //    if (result == true)
-        //    {
-        //        try
-        //        {
-        //            string filePath = dialog.FileName;
-        //            string extension = Path.GetExtension(filePath).ToLower();
-        //            List<Passenger> passengers = new List<Passenger>();
-
-        //            switch (extension)
-        //            {
-        //                case ".json":
-        //                    string jsonData = File.ReadAllText(filePath);
-        //                    passengers = JsonSerializer.Deserialize<List<Passenger>>(jsonData);
-        //                    break;
-        //                default:
-        //                    throw new Exception("Unsupported file format");
-        //            }
-
-        //            dgPassenger.ItemsSource = passengers;
-        //            lblChoosen.Content = filePath;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        }
-        //    }
-        //}
-
-        //private void btnSavetoDtb_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MessageBoxResult result = MessageBox.Show("Do you want to save data to database?", "Save data", MessageBoxButton.YesNo, MessageBoxImage.Question);
-        //    if (result == MessageBoxResult.Yes)
-        //    {
-        //        var passengers = dgPassenger.ItemsSource as List<Passenger>;
-        //        if (passengers != null)
-        //        {
-        //            passengerService.AddRange(passengers);
-        //            MessageBox.Show("Successfully!");
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Don't have data to save!");
-        //        }
-        //    }
-            
-        //}
+        private void txtBlockPageNumber_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            txtPageNumber.Focus();
+        }
     }
 }

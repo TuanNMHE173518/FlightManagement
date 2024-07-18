@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFProject2" xmlns:local1="clr-namespace:WPFProject2.Resource"
         mc:Ignorable="d"
         Title="BaggageWindow" WindowStartupLocation="CenterScreen" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
@@ -59,11 +61,40 @@
                     </Grid>
                 </Border>
                 <Border Margin="100,10,100,10" CornerRadius="10" BorderBrush="Black" BorderThickness="1" Padding="5">
+                    
+                    
+                    <ComboBox
+                          x:Name="cbBaggageType"
+                          FontSize="18" Foreground="#FFA8A8A8"
+                          BorderBrush="Transparent" BorderThickness="0"
+                          IsEditable="True"
+                          IsReadOnly="True"
+                          Text="Baggage Type"
+                          
+                         >
+                                            <ComboBoxItem
+                                               Tag="10"
+                            Content="Under 10 Kg" />
+                                            <ComboBoxItem
+                                                Tag="20"
+                            Content="Under 20 Kg" />
+                                            <ComboBoxItem
+                                                Tag="30"
+                            Content="Under 30 Kg" />
+                                            <ComboBoxItem
+                            /> 
+                    </ComboBox>
+
+                    
+                </Border>
+                <Border Margin="100,10,100,10" CornerRadius="10" BorderBrush="Black" BorderThickness="1" Padding="5">
                     <Grid>
                         <TextBlock x:Name="txtBlockWeight" MouseDown="txtBlockWeight_MouseDown" Margin="5,0,0,0" FontSize="18" Foreground="#FFA8A8A8" Text="Weight (Kg)" Panel.ZIndex="1"></TextBlock>
                         <TextBox TextChanged="txtWeight_TextChanged" x:Name="txtWeight" Margin="5,0,0,0" FontSize="18" BorderBrush="Transparent"  BorderThickness="0"></TextBox>
                     </Grid>
+
                 </Border>
+                
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Margin="10,20,10,10" Width="150" x:Name="btnAdd" Click="btnAdd_Click"   Content="Add" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1"  >
@@ -132,7 +163,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-
+            
 
         </Grid>
     </Border>

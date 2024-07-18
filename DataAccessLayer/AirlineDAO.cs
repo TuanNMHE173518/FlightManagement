@@ -14,5 +14,32 @@ namespace DataAccessLayer
             FlightManagementDbContext context = new FlightManagementDbContext();
             return context.Airlines.ToList();
         }
+        public static void AddAirline(Airline airline)
+        {
+            FlightManagementDbContext context = new FlightManagementDbContext();
+            int id = context.Airlines.Max(x => x.Id);
+            airline.Id = id + 1;
+            context.Airlines.Add(airline);
+            context.SaveChanges();
+        }
+        public static void UpdateAirline(Airline airline)
+        {
+
+            FlightManagementDbContext context = new FlightManagementDbContext();
+            context.Airlines.Update(airline);
+            context.SaveChanges();
+
+        }
+        public static void DeleteAirline(Airline airline)
+        {
+            FlightManagementDbContext context = new FlightManagementDbContext();
+            context.Airlines.Remove(airline);
+            context.SaveChanges();
+        }
+        public static Airline? GetAirlineById(int id)
+        {
+            FlightManagementDbContext context = new FlightManagementDbContext();
+            return context.Airlines.Find(id);
+        }
     }
 }

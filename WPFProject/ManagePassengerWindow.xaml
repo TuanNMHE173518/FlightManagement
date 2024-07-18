@@ -191,20 +191,55 @@
                  
 
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
-                <Button  x:Name="btnExportData" Margin="25,25,25,25" Click="btnExportData_Click" Foreground="White" FontSize="14" FontWeight="Medium"  Content="Save to File"  Width="150" Padding="15" Background="#FF54A1C1">
+            <StackPanel HorizontalAlignment="Right"  Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
+                
+                
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button Padding="5,0" Margin="5" Grid.Column="0" Grid.Row="1"  Width="60" Content="Previous" Click="btnPrevious_Click" Background="#FFFEFAFA">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Medium" x:Name="txtPageInfo" Text="" Foreground="#FFFFBDBD"/>
+                    <Button Padding="5,0" Margin="5" Grid.Column="1" Grid.Row="1"  Width="60" Content="Next" Click="btnNext_Click" Background="#FFFEFAFA">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                </Grid>
+                <Border Width="70" Margin="0,35,0,35" Grid.Row="1" Grid.Column="2" CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
+                    <Grid Margin="5,5">
+
+
+                        <TextBlock MouseDown="txtBlockPageNumber_MouseDown" FontSize="12" x:Name="txtBlockPageNumber"  Text="Page " Style="{StaticResource titleHint}" FontFamily="Segoe UI Variable Display" />
+                        <TextBox FontSize="12" Style="{StaticResource titleTextBox}" x:Name="txtPageNumber" TextChanged="txtPageNumber_TextChanged"  BorderThickness="0,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Button  Background="#FFFEFAFA" Margin="5,39,25,39" Width="60" Content="Go" Click="btnGo_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="15"></Setter>
+                            <Setter Property="CornerRadius" Value="4"></Setter>
                         </Style>
                     </Button.Resources>
                 </Button>
-                
-                
-                
             </StackPanel>
             
-            <DataGrid Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="14" x:Name="dgPassenger" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgPassenger_SelectionChanged">
+            <DataGrid CanUserAddRows="False" Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="14" x:Name="dgPassenger" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgPassenger_SelectionChanged">
                 <DataGrid.ColumnHeaderStyle>
                     <StaticResource ResourceKey="DataGridColumnHeaderStyle"></StaticResource>
                 </DataGrid.ColumnHeaderStyle>

@@ -31,17 +31,21 @@ namespace Services
             bookingRepository.AddBooking(booking);
         }
 
+        public int CountNumberBookingByFlightId(int flightId)
+        {
+            int numberofBooking = 0;
+            numberofBooking = GetAllBookings().Where(b => b.FlightId == flightId).Count();
+            return numberofBooking;
+        }
+
         public void DeleteBooking(int id)
         {
             bookingRepository.DeleteBooking(id);
         }
 
-        public List<BookingInfoDTO> FindByAirlineAirportAnddate(string departureAirportCode, string ArrivalAirportCode, string airlineCode, DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime,string name, bool status)
+        public List<BookingInfoDTO> FindByAirlineAirportAnddate(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime,string name, bool status)
         {
-            var foundBookings = GetBookingInfos().Where(b => (departureAirportCode == null || b.DepartingAirportCode.Equals(departureAirportCode))
-                                                            && (ArrivalAirportCode == null || b.ArrivingAirportCode.Equals(ArrivalAirportCode))
-                                                            && (airlineCode == null || b.AirlineCode.Equals(airlineCode))
-                                                            && (departureDate == null || b.DepartureTime >= departureDate)
+            var foundBookings = GetBookingInfos().Where(b => (departureDate == null || b.DepartureTime >= departureDate)
                                                             && (arrivalDate == null || b.ArrivalTime <= departureDate)
                                                             && (bookingTime == null || b.BookingTime >= bookingTime)
                                                             && (b.Status == status)
@@ -49,15 +53,12 @@ namespace Services
             return foundBookings;
         }
 
-        public List<BookingInfoDTO> FindPersonalBookingByAirlineAirportAnddate(string departureAirportCode, string ArrivalAirportCode, string airlineCode, DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, bool status, int passengerId)
+        public List<BookingInfoDTO> FindPersonalBookingByAirlineAirportAnddate( DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, bool status, int passengerId)
         {
-            var foundBookings = GetPersonalBookingInfor(passengerId).Where(b => (departureAirportCode == null || b.DepartingAirportCode.Equals(departureAirportCode))
-                                                           && (ArrivalAirportCode == null || b.ArrivingAirportCode.Equals(ArrivalAirportCode))
-                                                           && (airlineCode == null || b.AirlineCode.Equals(airlineCode))
-                                                           && (departureDate == null || b.DepartureTime >= departureDate)
-                                                           && (arrivalDate == null || b.ArrivalTime <= departureDate)
-                                                           && (bookingTime == null || b.BookingTime >= bookingTime)
-                                                           && (b.Status == status)).ToList();
+            var foundBookings = GetPersonalBookingInfor(passengerId).Where(b =>   (departureDate == null || b.DepartureTime >= departureDate)
+                                                                               && (arrivalDate == null || b.ArrivalTime <= arrivalDate)
+                                                                               && (bookingTime == null || b.BookingTime >= bookingTime)
+                                                                               && (b.Status == status)).ToList();
             return foundBookings;
         }
 

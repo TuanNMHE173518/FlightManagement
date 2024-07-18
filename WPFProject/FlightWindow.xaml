@@ -8,7 +8,8 @@
         Title="FlightWindow" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Window.Resources>
         <local1:StatusConverter x:Key="StatusConverter"></local1:StatusConverter>
-        <local1:StatusVisibilityConverter x:Key="StatusVíibilityConverter"></local1:StatusVisibilityConverter>
+        <local1:StatusVisibilityConverter x:Key="StatusVisibilityConverter"></local1:StatusVisibilityConverter>
+        <local1:EmptySeatsConverter x:Key="EmptySeatsConverter"></local1:EmptySeatsConverter>
     </Window.Resources>
     <Border  CornerRadius="20" Background="White">
         <Grid>
@@ -112,9 +113,9 @@
                                             <GridViewRowPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
                                             <Button Tag="{Binding Id}" Click="Button_Click" 
                                                     Content="Book" 
-                                                    Visibility="{Binding Status, Converter={StaticResource StatusVíibilityConverter}, ConverterParameter=True}" Style="{StaticResource btnBook}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                            <Border CornerRadius="15" Background="Red" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20,10,20,10" Visibility="{Binding Status, Converter={StaticResource StatusVíibilityConverter}, ConverterParameter=False}">
-                                                <TextBlock FontSize="18" FontWeight="Medium"   Text="Cancelled" Visibility="{Binding Status, Converter={StaticResource StatusVíibilityConverter}, ConverterParameter=False}" ></TextBlock>
+                                                    Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=True}" Style="{StaticResource btnBook}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                            <Border CornerRadius="15" Background="Red" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20,10,20,10" Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=False}">
+                                                <TextBlock FontSize="18" FontWeight="Medium"   Text="Cancelled" Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=False}" ></TextBlock>
                                                 
                                             </Border>
                                         </Grid>
@@ -143,8 +144,8 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding Id}"> </GridViewColumn>
-                        <GridViewColumn Width="170" Header="Airline"  DisplayMemberBinding="{Binding Airline.Name}"/>
-                        <GridViewColumn Width="355" Header="Departing Airport">
+                        <GridViewColumn Width="160" Header="Airline"  DisplayMemberBinding="{Binding Airline.Name}"/>
+                        <GridViewColumn Width="310" Header="Departing Airport">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -157,7 +158,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="355" Header="Arriving Airport">
+                        <GridViewColumn Width="310" Header="Arriving Airport">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -171,12 +172,20 @@
 
                         <GridViewColumn Header="D Gate" Width="80" DisplayMemberBinding="{Binding DepartingGate}"></GridViewColumn>
                         <GridViewColumn Header="A Gate" Width="80" DisplayMemberBinding="{Binding ArrivingGate}"></GridViewColumn>
-                       
+                        <GridViewColumn Header="Seats" Width="80" DisplayMemberBinding="{Binding NumberPassengers}"></GridViewColumn>
+                        <GridViewColumn Header="Empty Seats" Width="110">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Id, Converter={StaticResource EmptySeatsConverter}}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
               
               
             </ListView>
+            
         </Grid>
     </Border>
 </Window>

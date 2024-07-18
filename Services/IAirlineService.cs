@@ -10,5 +10,10 @@ namespace Services
     public interface IAirlineService
     {
         List<Airline> GetAllAirlines();
+        void AddAirline(Airline airline);
+        void RemoveAirline(Airline airline);
+        void UpdateAirline(Airline airline);
+        Airline? GetAirlineById(int id);
+        IEnumerable<Airline> GetFilteredAirlines(string code, string name, string country);
     }
 }

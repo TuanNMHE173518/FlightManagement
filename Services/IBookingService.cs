@@ -15,11 +15,12 @@ namespace Services
         List<BookingInfoDTO> GetPersonalBookingInfor(int passengerId);
 
         List<Booking> GetAllBookings();
-        List<BookingInfoDTO> FindByAirlineAirportAnddate(string departureAirportCode, string ArrivalAirportCode, string airlineCode, DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, bool status);
+        List<BookingInfoDTO> FindByAirlineAirportAnddate(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, bool status);
         Booking GetBookingById(int id);
 
         void UpdateBooking(Booking booking);
-        List<BookingInfoDTO> FindPersonalBookingByAirlineAirportAnddate(string departureAirportCode, string ArrivalAirportCode, string airlineCode, DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, bool status, int passengerId);
+        List<BookingInfoDTO> FindPersonalBookingByAirlineAirportAnddate( DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, bool status, int passengerId);
 
+        int CountNumberBookingByFlightId(int flightId);
     }
 }

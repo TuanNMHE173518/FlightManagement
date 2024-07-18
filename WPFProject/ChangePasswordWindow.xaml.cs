@@ -113,7 +113,7 @@ namespace WPFProject2
             base.OnClosed(e);
             foreach (Window window in Application.Current.Windows)
             {
-                if (window is AccountWindow)
+                if (window is MainWindow)
                 {
                     window.Show();
                 }
@@ -157,6 +157,22 @@ namespace WPFProject2
             {
                 txtBlockVerify.Visibility = Visibility.Visible;
             }
+        }
+        private void btnChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ProfileWindow profileWindow = new ProfileWindow(account);
+            profileWindow.Show();
+            this.Hide();
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

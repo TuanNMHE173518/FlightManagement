@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,7 +25,7 @@ namespace WPFProject
             this.accountMember = account;
             InitializeComponent();
             AuthorizationUser(account);
-
+            lblProfile.Content = account.Email;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,7 @@ namespace WPFProject
 
         private void AuthorizationUser(AccountMember account)
         {
-            if(account.Role.Equals("Admin"))
+            if(account.Role.Equals("Admin") || account.Role.Equals("Super Admin"))
             {
                 ((Button)btnManageAccount).Visibility = Visibility.Visible;
                 ((Button)btnCreateFlight).Visibility = Visibility.Visible;
@@ -113,6 +114,54 @@ namespace WPFProject
             this.Hide();
             ManagePlatformWindow managePlatformWindow = new ManagePlatformWindow();
             managePlatformWindow.Show();
+        }
+
+        private void lblProfile_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var image = sender as Image;
+            if (image != null && image.ContextMenu != null)
+            {
+                var contextMenu = image.ContextMenu;
+
+                Point relativePoint = image.TransformToAncestor(this)
+                                  .Transform(new Point(0, 0));
+                contextMenu.HorizontalOffset = relativePoint.X;
+                contextMenu.VerticalOffset = relativePoint.Y + image.ActualHeight;
+                contextMenu.Placement = PlacementMode.RelativePoint;
+                contextMenu.PlacementTarget = this;
+                contextMenu.IsOpen = true;
+
+
+            }
+        }
+
+        private void btnChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePasswordWindow changePasswordWindow = new ChangePasswordWindow(accountMember);
+            changePasswordWindow.Show();
+            this.Hide();
+        }
+
+        private void btnProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ProfileWindow profileWindow = new ProfileWindow(accountMember);
+            profileWindow.Show();
+            this.Hide();
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            Image image = sender as Image;
+            image.ContextMenu.IsOpen = true;
         }
     }
 }

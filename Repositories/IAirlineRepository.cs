@@ -10,6 +10,9 @@ namespace Repositories
     public interface IAirlineRepository
     {
         List<Airline> GetAll();
-
+        void AddAirline(Airline airline);
+        void UpdateAirline(Airline airline);
+        void DeleteAirline(Airline airline);
+        Airline? GetAirlineById(int id);
     }
 }

@@ -14,5 +14,13 @@ namespace Repositories
         {
             return AirlineDAO.GetAirlines();
         }
+        public void AddAirline(Airline airline) => AirlineDAO.AddAirline(airline);
+
+        public void UpdateAirline(Airline airline) => AirlineDAO.UpdateAirline(airline);
+
+        public void DeleteAirline(Airline airline) => AirlineDAO.DeleteAirline(airline);
+
+        public Airline? GetAirlineById(int id) => AirlineDAO.GetAirlineById(id);
+
     }
 }

@@ -40,19 +40,9 @@
             </Border>
             <Button Grid.ColumnSpan="2" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="30" Width="100" FontSize="12" />
 
-            <Border Grid.Row="1"  Background="#FFD6F1F0" CornerRadius="20" Margin="15">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="From" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbFrom" Margin="10,0,10,0" Padding="7"></ComboBox>
-                </StackPanel>
-            </Border>
+           
 
-            <Border Grid.Row="2"   Grid.Column="0" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="To" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbTo" Margin="10,0,10,0" Padding="7"></ComboBox>
-                </StackPanel>
-            </Border>
+          
 
             <Border Grid.Row="1"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
@@ -66,12 +56,7 @@
                     <DatePicker x:Name="dtArrival" Margin="10,0,10,0"  FontSize="18"></DatePicker>
                 </StackPanel>
             </Border>
-            <Border Grid.Row="1"   Grid.Column="3" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Airline" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbAirline" Margin="10,0,10,0" Padding="7"></ComboBox>
-                </StackPanel>
-            </Border>
+            
             <Border Grid.Row="1"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Booking time" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>

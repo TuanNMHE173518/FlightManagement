@@ -23,6 +23,8 @@ public partial class Flight
 
     public bool? Status { get; set; }
 
+    public int? NumberPassengers { get; set; }
+
     public virtual Airline? Airline { get; set; }
 
     public virtual Airport? ArrivingAirportNavigation { get; set; }
