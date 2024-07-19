@@ -105,6 +105,9 @@ namespace WPFProject3
                 {
                     window.Show();
                     return;
+                }else if(window is FlightDetailWindow)
+                {
+                    window.Show();
                 }
             }
         }

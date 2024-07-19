@@ -447,5 +447,18 @@ namespace WPFProject2
                 e.Handled = true;
             }
         }
+
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem item = sender as ListViewItem;
+            if(item != null)
+            {
+                Flight flight = item.DataContext as Flight;
+                FlightDetailWindow flightDetailWindow = new FlightDetailWindow(flight.Id);
+                flightDetailWindow.Show();
+                this.Hide();
+            }
+            
+        }
     }
 }

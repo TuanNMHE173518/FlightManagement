@@ -22,9 +22,9 @@ namespace Services
             accountMemberRepository.CreateAccount(accountMember);
         }
 
-        public List<AccountMember> FindByFullName(string fullName)
+        public List<AccountMember> FindByFullNameAndRole(string fullName, string role)
         {
-            var foundAccount = GetAllAccounts().Where(a => a.FullName.ToLower().Contains(fullName.ToLower()));
+            var foundAccount = GetAllAccounts().Where(a => a.FullName.ToLower().Contains(fullName.ToLower()) && (string.IsNullOrEmpty(role) || a.Role.Equals(role)));
 
             return foundAccount.ToList();
         }

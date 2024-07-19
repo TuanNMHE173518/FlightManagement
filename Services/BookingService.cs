@@ -53,6 +53,16 @@ namespace Services
             return foundBookings;
         }
 
+        public List<BookingInfoDTO> FindByAirlineAirportAnddateAndFlightId(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, string status, int flightId)
+        {
+            var foundBookings = GetBookingInfosByFlightId(flightId).Where(b => (departureDate == null || b.DepartureTime >= departureDate)
+                                                            && (arrivalDate == null || b.ArrivalTime <= departureDate)
+                                                            && (bookingTime == null || b.BookingTime >= bookingTime)
+                                                            && (string.IsNullOrEmpty(status) || b.Status == bool.Parse(status))
+                                                            && b.PassengerName.ToLower().Contains(name.ToLower())).ToList();
+            return foundBookings;
+        }
+
         public List<BookingInfoDTO> FindPersonalBookingByAirlineAirportAnddate( DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, bool status, int passengerId)
         {
             var foundBookings = GetPersonalBookingInfor(passengerId).Where(b =>   (departureDate == null || b.DepartureTime >= departureDate)
@@ -102,6 +112,36 @@ namespace Services
             return bookingInfoDTOs.ToList();                  
                                  
                                  
+        }
+
+        public List<BookingInfoDTO> GetBookingInfosByFlightId(int flightId)
+        {
+            var bookingInfoDTOs = from booking in GetAllBookings()
+                                  join flight in flightRepository.GetAllFlights() on booking.FlightId equals flight.Id
+                                  join platform in platformRepository.GetAll() on booking.BookingPlatformId equals platform.Id
+                                  join passenger in passengerRepository.GetAll() on booking.PassengerId equals passenger.Id
+                                  join departingAirPort in airportRepository.GetAllAirports() on flight.DepartingAirport equals departingAirPort.Id
+                                  join arrivingAirPort in airportRepository.GetAllAirports() on flight.ArrivingAirport equals arrivingAirPort.Id
+                                  join airline in airlineRepository.GetAll() on flight.AirlineId equals airline.Id
+                                  where flight.Id == flightId
+                                  select new BookingInfoDTO()
+                                  {
+                                      id = booking.Id,
+                                      PassengerName = passenger.FirstName + " " + passenger.LastName,
+                                      AirlineName = airline.Name,
+                                      ArrivingAirportName = arrivingAirPort.Name,
+                                      DepartingAirportName = departingAirPort.Name,
+                                      BookingTime = booking.BookingTime,
+                                      DepartureTime = flight.DepartureTime,
+                                      ArrivalTime = flight.ArrivalTime,
+                                      PlatformName = platform.Name,
+                                      DepartingAirportCode = departingAirPort.Code,
+                                      ArrivingAirportCode = arrivingAirPort.Code,
+                                      AirlineCode = airline.Code,
+                                      Status = booking.Status
+                                  };
+
+            return bookingInfoDTOs.ToList();
         }
 
         public List<BookingInfoDTO> GetPersonalBookingInfor(int passengerId)

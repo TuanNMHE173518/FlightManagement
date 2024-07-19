@@ -284,7 +284,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Button FontWeight="Medium" x:Name="btnPrevious" Foreground="Black" Padding="5,0" Margin="5" Grid.Column="0" Grid.Row="1"  Width="60" Content="Prev" Click="btnPrevious_Click" Background="#FFFEFAFA">
+                    <Button FontWeight="Medium" Panel.ZIndex="1" x:Name="btnPrevious" Foreground="Black" Padding="5,0" Margin="5" Grid.Column="0" Grid.Row="1"  Width="60"  Click="btnPrevious_Click" Background="#FFFEFAFA">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"></Setter>
@@ -293,9 +293,11 @@
                                 <Setter Property="BorderBrush" Value="Transparent"></Setter>
                             </Style>
                         </Button.Resources>
+                        <materialDesign:PackIcon Kind="PagePreviousOutline" />
                     </Button>
+                    
                     <TextBlock Grid.Row="0" FontSize="12" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Medium" x:Name="txtPageInfo" Text="" Foreground="#FFFFBDBD"/>
-                    <Button FontWeight="Medium" x:Name="btnNext" Foreground="Black"  Padding="5,0" Margin="5" Grid.Column="1" Grid.Row="1"  Width="60" Content="Next" Click="btnNext_Click" Background="#FFFEFAFA">
+                    <Button FontWeight="Medium" x:Name="btnNext" Foreground="Black"  Padding="5,0" Margin="5" Grid.Column="1" Grid.Row="1"  Width="60" Panel.ZIndex="1" Click="btnNext_Click" Background="#FFFEFAFA">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"></Setter>
@@ -304,6 +306,7 @@
                                 <Setter Property="BorderBrush" Value="Transparent"></Setter>
                             </Style>
                         </Button.Resources>
+                        <materialDesign:PackIcon Kind="PageNextOutline" />
                     </Button>
 
                 </Grid>
@@ -329,8 +332,23 @@
             </StackPanel>
 
 
-            <ListView OverridesDefaultStyle="True" x:Name="lvFlight" Foreground="White" SelectionChanged="lvFlight_SelectionChanged" Grid.Row="3" Grid.Column="3" FontSize="12" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="30,30,0,0">
-                
+            <ListView OverridesDefaultStyle="True" x:Name="lvFlight" Foreground="#FF002245" SelectionChanged="lvFlight_SelectionChanged" Grid.Row="3" Grid.Column="3" FontSize="12" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="30,30,0,0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#FF002245"/>
+                                <Setter Property="Foreground" Value="#DDDDDD"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF002245"/>
+                                <Setter Property="Foreground" Value="#DDDDDD"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="Background" Value="AliceBlue"></Setter>
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.Resources>
                    
               

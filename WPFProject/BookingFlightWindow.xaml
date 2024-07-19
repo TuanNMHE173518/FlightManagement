@@ -3,10 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
         xmlns:local="clr-namespace:WPFProject"
         mc:Ignorable="d"
-        Title="BookingFlightWindow" WindowStartupLocation="CenterScreen" Height="800" Width="1200" AllowsTransparency="True" Background="Transparent" WindowStyle="None"> 
-    <Border  CornerRadius="20" Background="#FF103454">
+        Title="BookingFlightWindow" WindowStartupLocation="CenterScreen" Height="800" Width="1200" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+    <Window.Resources>
+
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border  CornerRadius="20" Background="#FF394856">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -29,16 +43,37 @@
 
 
             </Grid.RowDefinitions>
-            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                  Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                  FontSize="20" Click="btnMaximize_Click"/>
-            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                     Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                     FontSize="20" Click="btnCloseAll_Click"/>
+            <Button Grid.Column="5"  x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" 
+         Background="Transparent" BorderBrush="Transparent" 
+        FontSize="20" Click="btnMaximize_Click">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="35"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="10,10,40,10"></Setter>
+                        <Setter Property="Background" Value="#FF159D93"></Setter>
+                    </Style>
+                </Button.Resources>
+                <materialDesign:PackIcon Foreground="White" Kind="WindowMaximize"  Height="30" Width="35"/>
+            </Button>
+            <Button Grid.Column="5"  x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" 
+        Background="Transparent"  BorderBrush="Transparent" 
+       FontSize="20" Click="btnCloseAll_Click">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="35"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="10"></Setter>
+                        <Setter Property="Background" Value="#FF159D93"></Setter>
+                    </Style>
+
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="WindowClose" Foreground="White" Height="30" Width="35" />
+            </Button>
             <Border Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="30" Margin="200,5" >
                 <Label Content="AirLine Booking"   Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="45" FontWeight="Bold" HorizontalAlignment="Center"/>
             </Border>
-            <Button  x:Name="btnBack" Click="btnBack_Click" Background="#FF159D93"  Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="10" Padding="10" Foreground="White" FontWeight="Medium" FontSize="24" >
+            <Button  x:Name="btnBack" Click="btnBack_Click" Background="#FF159D93"  Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="10"  Foreground="White" FontWeight="Medium" FontSize="18" >
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"></Setter>
@@ -59,7 +94,7 @@
             <Border Background="White" CornerRadius="20" Margin="20,15,300,15" BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2">
                 <TextBox x:Name="txtFirstName" FontSize="20" Margin="20,5,5,5" BorderBrush="Transparent" BorderThickness="0"></TextBox>
             </Border>
-            <Button x:Name="btnFindPassenger" Click="btnFindPassenger_Click" Grid.Column="2" Content="Find" FontWeight="Medium" Foreground="White" FontSize="24"  Grid.Row="2" Margin="320,15,80,15" Background="#FFD4B1B1">
+            <Button x:Name="btnFindPassenger" Click="btnFindPassenger_Click" Grid.Column="2" Content="Find" FontWeight="Medium" Foreground="White" FontSize="18"  Grid.Row="2" Width="120" Margin="300,0,0,0" Background="#FFD4B1B1">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="20"></Setter>
@@ -82,14 +117,14 @@
             
             <Label Margin="10" Foreground="White" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Gender" FontSize="24" FontWeight="Medium"></Label>
             <StackPanel Margin="20" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <RadioButton x:Name="rbMale" Foreground="White" VerticalContentAlignment="Center" FontSize="24" FontWeight="Medium" Content="Male" IsChecked="True" BorderThickness="2,2,2,2"/>
-                <RadioButton x:Name="rbFemale"  Foreground="White" Margin="100,0,0,0" VerticalContentAlignment="Center" FontSize="24" FontWeight="Medium" Content="Female" BorderThickness="2,2,2,2"></RadioButton>
+                <RadioButton x:Name="rbMale"  Foreground="White" VerticalContentAlignment="Center" FontSize="24" FontWeight="Medium" Content="Male" IsChecked="True" BorderThickness="2,2,2,2"/>
+                <RadioButton x:Name="rbFemale"   Foreground="White" Margin="100,0,0,0" VerticalContentAlignment="Center" FontSize="24" FontWeight="Medium" Content="Female" BorderThickness="2,2,2,2"></RadioButton>
             </StackPanel>
             <Label Margin="10" Foreground="White" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Booking Platform" FontSize="24" FontWeight="Medium"></Label>
             <ComboBox Grid.Column="1" Grid.Row="9" x:Name="cbBookingPlatform" Width="250"   Background="White"  FontSize="20" Margin="20,20,5,20" BorderBrush="Transparent" BorderThickness="0"></ComboBox>
                    
             
-            <Button x:Name="btnPassengerBooking" Click="btnPassengerBooking_Click" Grid.Column="0" Content="Book" FontWeight="Medium" Foreground="White" FontSize="30" Grid.ColumnSpan="2" Grid.Row="10" Margin="250,5,50,5" Background="#FFD273E3">
+            <Button x:Name="btnPassengerBooking" Click="btnPassengerBooking_Click" Grid.Column="0" Content="Book" FontWeight="Medium" Foreground="White" FontSize="20" Grid.ColumnSpan="2" Grid.Row="10" Height="50" Margin="320,0,0,0" Background="#FFD273E3">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="30"></Setter>
@@ -97,7 +132,7 @@
                 </Button.Resources>
             </Button>
 
-            <Button x:Name="btnReset" Click="btnReset_Click" Grid.Column="2" Content="Reset Form" FontWeight="Medium" Foreground="White" FontSize="30"  Grid.Row="10" Margin="50,5,250,5" Background="#FFAA5353">
+            <Button x:Name="btnReset" Click="btnReset_Click" Grid.Column="2" Content="Reset Form" FontWeight="Medium" Foreground="White" FontSize="20"  Grid.Row="10" Height="50" Margin="50,5,280,5" Background="#FFAA5353">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="30"></Setter>

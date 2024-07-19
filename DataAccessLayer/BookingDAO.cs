@@ -65,7 +65,7 @@ namespace DataAccessLayer
 
         public static Booking GetBookingById(int id) {
             FlightManagementDbContext context = new FlightManagementDbContext();
-            return context.Bookings.Where(b => b.Id == id).Include(b => b.Passenger).First();
+            return context.Bookings.Where(b => b.Id == id).Include(b => b.Passenger).Include(b => b.Flight).First();
 
 
         }

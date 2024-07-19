@@ -3,13 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
         xmlns:local="clr-namespace:WPFProject" xmlns:local1="clr-namespace:WPFProject2.Resource"
         mc:Ignorable="d"    
         Title="FlightWindow" Height="800" Width="1300" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Window.Resources>
-        <local1:StatusConverter x:Key="StatusConverter"></local1:StatusConverter>
-        <local1:StatusVisibilityConverter x:Key="StatusVisibilityConverter"></local1:StatusVisibilityConverter>
-        <local1:EmptySeatsConverter x:Key="EmptySeatsConverter"></local1:EmptySeatsConverter>
+        
+        <ResourceDictionary>
+            <local1:StatusConverter x:Key="StatusConverter"></local1:StatusConverter>
+            <local1:StatusVisibilityConverter x:Key="StatusVisibilityConverter"></local1:StatusVisibilityConverter>
+            <local1:EmptySeatsConverter x:Key="EmptySeatsConverter"></local1:EmptySeatsConverter>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Window.Resources>
     <Border  CornerRadius="20" Background="White">
         <Grid>
@@ -29,12 +42,33 @@
                 <RowDefinition Height="0.5*"></RowDefinition>
                 
             </Grid.RowDefinitions>
-            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                    Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                    FontSize="20" Click="btnMaximize_Click"/>
-            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                    Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                    FontSize="20" Click="btnCloseAll_Click"/>      
+            <Button Grid.Column="5"  x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" 
+        Background="Transparent" BorderBrush="Transparent" 
+       FontSize="20" Click="btnMaximize_Click">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="35"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="10,10,40,10"></Setter>
+                        <Setter Property="Background" Value="#FF159D93"></Setter>
+                    </Style>
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="WindowMaximize" Foreground="Black" Height="30" Width="35"/>
+            </Button>
+            <Button Grid.Column="5"  x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" 
+       Background="Transparent"  BorderBrush="Transparent" 
+      FontSize="20" Click="btnCloseAll_Click">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="35"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="10"></Setter>
+                        <Setter Property="Background" Value="#FF159D93"></Setter>
+                    </Style>
+
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="WindowClose"  Height="30" Width="35" />
+            </Button>
             <Border Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="40" Margin="200,10" >
                 <Label Content="AirLine Booking" Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="1"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center"/>
             </Border>
@@ -43,56 +77,56 @@
             <Border Grid.Row="1"  Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="From" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"> </Label>
-                    <ComboBox x:Name="cbFrom" Margin="10,0,10,0" Padding="7"></ComboBox>
+                    <ComboBox BorderBrush="Black" BorderThickness="1" x:Name="cbFrom" Margin="10,0,10,0" Padding="7"></ComboBox>
                 </StackPanel>
             </Border>
 
             <Border Grid.Row="2"   Grid.Column="0" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="To" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbTo" Margin="10,0,10,0" Padding="7"></ComboBox>
+                    <ComboBox BorderBrush="Black" BorderThickness="1" x:Name="cbTo" Margin="10,0,10,0" Padding="7"></ComboBox>
                 </StackPanel>
             </Border>
 
             <Border Grid.Row="1"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Departing Date" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <DatePicker x:Name="dtDeparture" Margin="10,0,10,0"  FontSize="18"></DatePicker>
+                    <DatePicker BorderBrush="Black" BorderThickness="1" x:Name="dtDeparture" Margin="10,0,10,0"  FontSize="18"></DatePicker>
                 </StackPanel>
             </Border>
             <Border Grid.Row="2"   Grid.Column="1" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Arriving Date" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <DatePicker x:Name="dtArrival" Margin="10,0,10,0"  FontSize="18"></DatePicker>
+                    <DatePicker BorderBrush="Black" BorderThickness="1" x:Name="dtArrival" Margin="10,0,10,0"  FontSize="18"></DatePicker>
                 </StackPanel>
             </Border>
             <Border Grid.Row="1"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Airline" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbAirline" Margin="10,0,10,0" Padding="7"></ComboBox>
+                    <ComboBox BorderBrush="Black" BorderThickness="1" x:Name="cbAirline" Margin="10,0,10,0" Padding="7"></ComboBox>
                 </StackPanel>
             </Border>
             <Border Grid.Row="2"   Grid.Column="2" Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Status" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    <ComboBox x:Name="cbStatus" Margin="10,0,10,0" Padding="7"></ComboBox>
+                    <ComboBox BorderBrush="Black" BorderThickness="1" x:Name="cbStatus" Margin="10,0,10,0" Padding="7"></ComboBox>
                 </StackPanel>
             </Border>
-            <Button x:Name="btnSearch" Click="btnSearch_Click" Grid.Row="1" Content="Search" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1" Margin="15">
+            <Button x:Name="btnSearch" Click="btnSearch_Click" Grid.Row="1" Content="Search" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1" Margin="15" Width="180" Height="50">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="20"></Setter>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btnReset" Click="btnReset_Click" Grid.Row="2" Content="Reset Filter" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1" Margin="15">
+            <Button x:Name="btnReset" Click="btnReset_Click" Grid.Row="2" Content="Reset Filter" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="3" Background="#FF37B3C1" Margin="15" Width="180" Height="50">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="20"></Setter>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btnBookingHistory" Click="btnBookingHistory_Click" Grid.Row="1" Grid.RowSpan="2" Content="Booking History" FontSize="24" FontWeight="Medium" Foreground="White" Grid.Column="4" Background="#FF374DC1" Margin="15,65">
+            <Button x:Name="btnBookingHistory" Click="btnBookingHistory_Click" Grid.Row="1" Grid.RowSpan="2" Content="Booking History" FontSize="20" FontWeight="Medium" Foreground="White" Grid.Column="4" Background="#FF374DC1" Margin="15,65" Width="180" Height="50">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="20"></Setter>
@@ -101,41 +135,25 @@
             </Button>
 
             <ListView  Background="#FFD6F1F0" Grid.Column="0" x:Name="lvFligt"   Grid.ColumnSpan="5" Grid.Row="3"  FontSize="16">
-                
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#FF77A8DA"/>
+                                <Setter Property="Foreground" Value="Black"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF77A8DA"/>
+                                <Setter Property="Foreground" Value="Black"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="Background" Value="#FF6AA992"></Setter>
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.Resources>
          
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Border x:Name="Border" BorderThickness="1" CornerRadius="20" BorderBrush="Gray" Background="{TemplateBinding Background}" Margin="5">
-                                        <Grid>
-                                            <GridViewRowPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
-                                            <Button Tag="{Binding Id}" Click="Button_Click" 
-                                                    Content="Book" 
-                                                    Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=True}" Style="{StaticResource btnBook}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                            <Border CornerRadius="15" Background="Red" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20,10,20,10" Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=False}">
-                                                <TextBlock FontSize="18" FontWeight="Medium"   Text="Cancelled" Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=False}" ></TextBlock>
-                                                
-                                            </Border>
-                                        </Grid>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Background" Value="#FF159D93"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        
-                    </Style>
+                   
                     <Style TargetType="GridViewColumnHeader">
                         <Setter Property="Padding" Value="5"></Setter>
                         <Setter Property="FontSize" Value="18"></Setter>
@@ -180,11 +198,26 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Header="Options" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid  VerticalAlignment="Center" Margin="0,25,0,0">
+                                        <Button Tag="{Binding Id}" Click="Button_Click" 
+                                                Content="Book" Width="95" Background="DarkCyan"
+                                                Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=True}" HorizontalAlignment="Left" VerticalAlignment="Center"/>  
+                                        <Border CornerRadius="5" Background="IndianRed" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="7" Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=False}">
+                                            <TextBlock FontSize="18" FontWeight="Medium"   Text="Cancelled" Visibility="{Binding Status, Converter={StaticResource StatusVisibilityConverter}, ConverterParameter=False}" ></TextBlock>
+
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
-              
-              
-            </ListView>
+                
+
+        </ListView>
             
         </Grid>
     </Border>

@@ -12,10 +12,12 @@ namespace Services
         void DeleteBooking(int id);
         void AddBooking(Booking booking);
         List<BookingInfoDTO> GetBookingInfos();
+        List<BookingInfoDTO> GetBookingInfosByFlightId(int flightId);
         List<BookingInfoDTO> GetPersonalBookingInfor(int passengerId);
 
         List<Booking> GetAllBookings();
         List<BookingInfoDTO> FindByAirlineAirportAnddate(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, bool status);
+        List<BookingInfoDTO> FindByAirlineAirportAnddateAndFlightId(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, string status, int flightId);
         Booking GetBookingById(int id);
 
         void UpdateBooking(Booking booking);

@@ -74,6 +74,10 @@ namespace WPFProject2
             if(booking.Status == false) {
                 MessageBox.Show($"Booking with ID: {bookingId} has been cancelled!");
                 return;
+            }else if (booking.Flight.ArrivalTime.Value.AddHours(1) < DateTime.Now)
+            {
+                MessageBox.Show("Flight has been finished!", "Flight finished", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
             }
             if(cbBaggageType.SelectedValue != null)
             {
@@ -126,6 +130,11 @@ namespace WPFProject2
             if (booking.Status == false)
             {
                 MessageBox.Show($"Booking with ID: {bookingId} has been cancelled!");
+                return;
+            }
+            else if (booking.Flight.ArrivalTime.Value.AddHours(1) < DateTime.Now)
+            {
+                MessageBox.Show("Flight has been finished!", "Flight finished", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             if (txtBaggage.Text.Length > 0)
@@ -187,6 +196,9 @@ namespace WPFProject2
                     window.Show();
                 }
                 else if (window is PersonalBooking) 
+                {
+                    window.Show();
+                }else if (window is FlightDetailWindow)
                 {
                     window.Show();
                 }
@@ -288,6 +300,11 @@ namespace WPFProject2
             if (booking.Status == false)
             {
                 MessageBox.Show($"Booking with ID: {bookingId} has been cancelled!");
+                return;
+            }
+            else if (booking.Flight.ArrivalTime.Value.AddHours(1) < DateTime.Now)
+            {
+                MessageBox.Show("Flight has been finished!", "Flight finished", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             Button button = (Button)sender;

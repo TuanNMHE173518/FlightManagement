@@ -14,7 +14,7 @@ namespace Services
         AccountMember? GetAccountById(int id);
         void UpdateAccount(AccountMember accountMember);
         void CreateAccount(AccountMember accountMember);
-        List<AccountMember> FindByFullName(string fullName);
+        List<AccountMember> FindByFullNameAndRole(string fullName, string role);
         List<AccountMember> FindByRole(string Role);
     }
 }

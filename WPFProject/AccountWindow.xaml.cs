@@ -266,8 +266,12 @@ namespace WPFProject
             {
                 txtBlockFilterName.Visibility = Visibility.Collapsed;
                 dgAccount.ItemsSource = null;
-
-                var foundAccount = accountMemberService.FindByFullName(txtFilterName.Text);
+                string role = "";
+                if(cbFilterRole.SelectedValue != null)
+                {
+                    role = cbFilterRole.SelectedValue.ToString();
+                }
+                var foundAccount = accountMemberService.FindByFullNameAndRole(txtFilterName.Text, role);
                 dgAccount.ItemsSource = foundAccount;
                 
 
@@ -286,7 +290,7 @@ namespace WPFProject
         private void cbFilterRole_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {   if (cbFilterRole.SelectedValue != null)
             {
-                var foundAccount = accountMemberService.FindByRole(cbFilterRole.SelectedValue.ToString()).ToList();
+                var foundAccount = accountMemberService.FindByFullNameAndRole(txtFilterName.Text,cbFilterRole.SelectedValue.ToString()).ToList();
                 dgAccount.ItemsSource = null;
                 dgAccount.ItemsSource = foundAccount;
                
