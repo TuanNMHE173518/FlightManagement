@@ -30,19 +30,25 @@ namespace WPFProject
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Do you want to logout?", "Logout!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Do you want to exit?", "Exit", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                this.Close();
+                Application.Current.Shutdown();
             }
         }
 
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            Application.Current.Windows[0].Show();
-            
-            
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is LoginWindow)
+                {
+                    window.Show();
+                }
+            }
+
+
         }
 
         private void btnManageAccount_Click(object sender, RoutedEventArgs e)
@@ -59,17 +65,13 @@ namespace WPFProject
             {
                 ((Button)btnManageAccount).Visibility = Visibility.Visible;
                 ((Button)btnCreateFlight).Visibility = Visibility.Visible;
-                ((Button)btnManageAirLine).Visibility = Visibility.Visible;
-                ((Button)btnManageAirport).Visibility = Visibility.Visible;
-                ((Button)btnManagePlatform).Visibility = Visibility.Visible;
+                
             }
             else
             {
                 ((Button)btnManageAccount).Visibility = Visibility.Collapsed;
                 ((Button)btnCreateFlight).Visibility = Visibility.Collapsed;
-                ((Button)btnManageAirLine).Visibility = Visibility.Collapsed;
-                ((Button)btnManageAirport).Visibility = Visibility.Collapsed;
-                ((Button)btnManagePlatform).Visibility = Visibility.Collapsed;
+                
 
             }
         }
@@ -116,10 +118,7 @@ namespace WPFProject
             managePlatformWindow.Show();
         }
 
-        private void lblProfile_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
+        
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var image = sender as Image;
@@ -158,10 +157,19 @@ namespace WPFProject
 
         }
 
-        private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+        
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            Image image = sender as Image;
-            image.ContextMenu.IsOpen = true;
+            MessageBoxResult result = MessageBox.Show("Do you want to logout?", "Logout!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
+
+      
+
+        
     }
 }

@@ -3,14 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFProject" 
         xmlns:local1="clr-namespace:WPFProject.Resource"
         mc:Ignorable="d"
         Title="AccountWindow" Height="800" Width="1200" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" WindowStyle="None" >
 
     <Window.Resources>
-        <local1:EnableConverter x:Key="EnableConverter"/>
+
+        <ResourceDictionary>
+            <local1:EnableConverter x:Key="EnableConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
+    
     <Border  CornerRadius="20" Background="White">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -30,15 +41,38 @@
             </Grid.RowDefinitions>
 
 
-            <Button Grid.Column="5" Content="&#x1F5D6;" x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                    Margin="10,8,40,10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                    FontSize="20" Click="btnMaximize_Click"/>
-            <Button Grid.Column="5" Content="&#x2715;" x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" Width="35" Height="30"
-                    Margin="10" Background="Transparent" Foreground="#FF159D93" BorderBrush="Transparent" 
-                    FontSize="20" Click="btnCloseAll_Click"/>  
-            <Label Content="Manage Account" Grid.Row="0" HorizontalAlignment="Left" Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="36" FontWeight="Medium" Grid.Column="2" Margin="151,0,0,0"/>
-            <Button x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="40" Width="100" FontSize="12" />
             
+            <Button Grid.Column="5"  x:Name="btnMaximize" HorizontalAlignment="Right" VerticalAlignment="Top" 
+        Background="Transparent" BorderBrush="Transparent" 
+       FontSize="20" Click="btnMaximize_Click">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="35"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="10,10,40,10"></Setter>
+                        <Setter Property="Background" Value="#FF159D93"></Setter>
+                    </Style>
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="WindowMaximize" Foreground="#FF159D93" Height="30" Width="35"/>
+            </Button>
+            <Button Grid.Column="5"  x:Name="btnCloseAll" HorizontalAlignment="Right" VerticalAlignment="Top" 
+       Background="Transparent"  BorderBrush="Transparent" 
+      FontSize="20" Click="btnCloseAll_Click">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="35"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="10"></Setter>
+                        <Setter Property="Background" Value="#FF159D93"></Setter>
+                    </Style>
+
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="WindowClose" Foreground="#FF159D93"  Height="30" Width="35" />
+            </Button>
+            <Label Content="Manage Account" Grid.Row="0" HorizontalAlignment="Left" Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="36" FontWeight="Medium" Grid.Column="2" Margin="151,0,0,0"/>
+            <Button Grid.ColumnSpan="2" x:Name="btnBack" Panel.ZIndex="1" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"    Margin="40,35,0,35" Width="50" FontSize="12" >
+                <materialDesign:PackIcon   Kind="ArrowLeft" Height="20" Width="30" VerticalAlignment="Center" />
+            </Button>
             <Label Content="Account Information" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></Label>
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                 <Label Content="Filter: " FontSize="18" FontWeight="Medium"></Label>
@@ -54,7 +88,7 @@
                     </Grid>
                 </Border>
                 <Border Margin="30,0,0,0" Width="150"  CornerRadius="5" BorderThickness="1" BorderBrush="#DDA6A6A6">
-                    <ComboBox x:Name="cbFilterRole" FontSize="18" FontWeight="Medium" SelectionChanged="cbFilterRole_SelectionChanged">
+                    <ComboBox x:Name="cbFilterRole" FontSize="18" BorderThickness="0" BorderBrush="Transparent" FontWeight="Medium" SelectionChanged="cbFilterRole_SelectionChanged">
                        
                     </ComboBox>
                 </Border>
@@ -108,7 +142,7 @@
                     <RadioButton VerticalContentAlignment="Center" x:Name="rbSuperAdmin" Margin="30,0,0,0" FontSize="20" FontWeight="Medium" Content="Super Admin"></RadioButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="btnUpdateAccount" Foreground="White" Padding="10" Click="btnUpdateAccount_Click" Width="160" FontSize="18" FontWeight="Medium" Background="#FF67BBB2" Content="Update" >
+                    <Button x:Name="btnUpdateAccount" Foreground="White"  Click="btnUpdateAccount_Click" Width="160" FontSize="18" FontWeight="Medium" Background="#FF67BBB2" Content="Update" >
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="15"></Setter>
@@ -118,14 +152,14 @@
                     
                 </StackPanel>
                 <StackPanel Margin="0,30,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="btnDelete" Click="btnDelete_Click" Padding="10" Width="160" FontWeight="Medium" FontSize="18" Background="#FFBB6767" Foreground="White" Content="Block">
+                    <Button x:Name="btnDelete" Click="btnDelete_Click"  Width="160" FontWeight="Medium" FontSize="18" Background="#FFBB6767" Foreground="White" Content="Block">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="15"></Setter>
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="btnUnBlock" Click="btnUnBlock_Click" Padding="10" Margin="20,0,0,0" Width="160" FontWeight="Medium" FontSize="18" Background="#FFBB6767" Foreground="White" Content="Unlock">
+                    <Button x:Name="btnUnBlock" Click="btnUnBlock_Click"  Margin="20,0,0,0" Width="160" FontWeight="Medium" FontSize="18" Background="#FFBB6767" Foreground="White" Content="Unlock">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="15"></Setter>
@@ -137,7 +171,7 @@
                 
             </StackPanel>
             
-            <DataGrid CanUserAddRows="False" Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="16" x:Name="dgAccount" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgAccount_SelectionChanged">
+            <DataGrid CanUserAddRows="False" Grid.Column="2" Grid.RowSpan="5" Grid.Row="2"  FontSize="14" x:Name="dgAccount" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HeadersVisibility="Column" SelectionChanged="dgAccount_SelectionChanged">
                 <DataGrid.ColumnHeaderStyle>
                     <StaticResource ResourceKey="DataGridColumnHeaderStyle"></StaticResource>
                 </DataGrid.ColumnHeaderStyle>

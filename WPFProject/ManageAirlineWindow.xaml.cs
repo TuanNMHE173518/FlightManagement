@@ -25,10 +25,23 @@ namespace WPFProject2
     public partial class ManageAirlineWindow : Window
     {
         private readonly IAirlineService airlineService;
+        private int CurrentPage = 1;
+        private int ItemsPerPage = 10;
+        private int TotalPage;
+        private string searchName;
+        private string searchCode;
+        private string searchCountry;
+        private bool isSearch = false;
+        private List<Airline> airlines;
         public ManageAirlineWindow()
         {
             InitializeComponent();
             airlineService = new AirlineService();
+            airlines = airlineService.GetAllAirlines();
+            cmbItemsPerPage.ItemsSource = new[] { 5, 10, 20, 50, 100 };
+            cmbItemsPerPage.SelectedValue = 10;
+            LoadAirline();
+
         }
 
         private void btnCloseAll_Click(object sender, RoutedEventArgs e)
@@ -60,8 +73,14 @@ namespace WPFProject2
             try
             {
                 DgAirline.ItemsSource = null;
-                var airline = airlineService.GetAllAirlines();
-                DgAirline.ItemsSource = airline;
+                TotalPage = (int)Math.Ceiling((double)airlines.Count / ItemsPerPage);
+                if (CurrentPage > TotalPage)
+                {
+                    CurrentPage = TotalPage;
+                }
+                DgAirline.ItemsSource = airlines.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+                txtPageNumber.Text = CurrentPage.ToString();
+                txtTotalPage.Text = "of " + TotalPage;
             }
             catch (Exception ex)
             {
@@ -89,6 +108,18 @@ namespace WPFProject2
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(txtAirlineCode.Text) ||
+                    string.IsNullOrWhiteSpace(txtAirlineName.Text) ||
+                    string.IsNullOrWhiteSpace(txtAirlineCountry.Text))
+                {
+                    MessageBox.Show("All fields are required!");
+                    return;
+                }
+                if (txtAirlineCode.Text.Length > 3 || txtAirlineCode.Text.Length <2)
+                {
+                    MessageBox.Show("Airline code must be 2-3 characters!");
+                    return;
+                }
                 Airline airline = new Airline();
                 airline.Code = txtAirlineCode.Text;
                 airline.Name = txtAirlineName.Text;
@@ -102,6 +133,9 @@ namespace WPFProject2
             }
             finally
             {
+                airlines = airlineService.GetAllAirlines();
+                TotalPage = (int)Math.Ceiling((double)airlines.Count / ItemsPerPage);
+                CurrentPage = TotalPage;
                 LoadAirline();
             }
         }
@@ -132,6 +166,14 @@ namespace WPFProject2
             }
             finally
             {
+                if (isSearch)
+                {
+                    airlines = airlineService.GetFilteredAirlines(searchCode, searchName, searchCountry).ToList();
+                }
+                else
+                {
+                    airlines = airlineService.GetAllAirlines();
+                }
                 LoadAirline();
             }
         }
@@ -161,6 +203,14 @@ namespace WPFProject2
             }
             finally
             {
+                if (isSearch)
+                {
+                    airlines = airlineService.GetFilteredAirlines(searchCode, searchName, searchCountry).ToList();
+                }
+                else
+                {
+                    airlines = airlineService.GetAllAirlines();
+                }
                 LoadAirline();
             }
         }
@@ -291,6 +341,8 @@ namespace WPFProject2
             txtFilterCode.Text = "";
             txtFilterName.Text = "";
             txtFilterCountry.Text = "";
+            isSearch = false;
+            airlines = airlineService.GetAllAirlines();
             LoadAirline();
         }
 
@@ -301,6 +353,10 @@ namespace WPFProject2
                 string code = txtFilterCode.Text;
                 string name = txtFilterName.Text;
                 string country = txtFilterCountry.Text;
+                searchCode = code;
+                searchName = name;
+                searchCountry = country;
+                isSearch = true;
 
                 var filteredAirlines = airlineService.GetFilteredAirlines(code, name, country);
 
@@ -310,6 +366,49 @@ namespace WPFProject2
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                LoadAirline();
+            }
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPage < TotalPage)
+            {
+                CurrentPage++;
+                LoadAirline();
+            }
+        }
+
+        private void cmbItemsPerPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            ItemsPerPage = Int32.Parse(cmbItemsPerPage.SelectedValue.ToString());
+            LoadAirline();
+        }
+
+        private void txtPageNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPageNumber.Text))
+            {
+                if (!int.TryParse(txtPageNumber.Text, out int result))
+                {
+                    txtPageNumber.Text = "";
+                }
+                else
+                {
+                    CurrentPage = Int32.Parse(txtPageNumber.Text);
+                    LoadAirline();
+                }
+
             }
 
         }

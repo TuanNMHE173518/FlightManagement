@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
         xmlns:local="clr-namespace:WPFProject3"
         mc:Ignorable="d"
         Title="UpdateBookingWindow" WindowStartupLocation="CenterScreen" Height="600" Width="700" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
@@ -37,12 +39,8 @@
             <Border Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="20" Margin="140,15" >
                 <Label Content="Update Booking" VerticalAlignment="Center"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
             </Border>
-            <Button  x:Name="btnBack" Click="btnBack_Click" Background="#FF159D93"  Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Width="90" Margin="10,10,5,10" Padding="5" Foreground="White" FontWeight="Medium" FontSize="18" >
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"></Setter>
-                    </Style>
-                </Button.Resources>
+            <Button Grid.ColumnSpan="2" Panel.ZIndex="1" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"    Margin="40,30,0,30" Width="50" FontSize="12" >
+                <materialDesign:PackIcon   Kind="ArrowLeft" Height="20" Width="30" VerticalAlignment="Center" />
             </Button>
             <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="30,30,30,40">
                 

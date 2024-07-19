@@ -2,6 +2,7 @@
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,22 @@ namespace WPFProject2
     public partial class ManageAirportWindow : Window
     {
         private readonly IAirportService airportService;
+        private int CurrentPage = 1;
+        private int ItemsPerPage = 10;
+        private int TotalPage;
+        private string searchName;
+        private string searchCountry;
+        private string searchCity;
+        private string searchState;
+        private bool isSearch = false;
+        private List<Airport> airports;
         public ManageAirportWindow()
         {
             InitializeComponent();
             airportService = new AirportService();
+            airports = airportService.GetAllAirports();
+            cmbItemsPerPage.ItemsSource = new[] { 5, 10, 20, 50, 100 };
+            cmbItemsPerPage.SelectedValue = 10;
             LoadAirport();
         }
 
@@ -58,9 +71,16 @@ namespace WPFProject2
 
         public void LoadAirport()
         {
-            dgAirport.ItemsSource = null;
-            var airports = airportService.GetAllAirports();
-            dgAirport.ItemsSource = airports;
+
+
+            TotalPage = (int)Math.Ceiling((double)airports.Count / ItemsPerPage);
+            if (CurrentPage > TotalPage)
+            {
+                CurrentPage = TotalPage;
+            }
+            dgAirport.ItemsSource = airports.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+            txtPageNumber.Text = CurrentPage.ToString();
+            txtTotalPage.Text = "of " + TotalPage;
         }
 
         public void Reset()
@@ -75,6 +95,9 @@ namespace WPFProject2
             txtFilterCountry.Text = "";
             txtFilterCity.Text = "";
             txtFilterState.Text = "";
+            isSearch = false;
+            airports = airportService.GetAllAirports();
+            CurrentPage = 1;
         }
 
         private void txtName_TextChanged(object sender, TextChangedEventArgs e)
@@ -236,7 +259,13 @@ namespace WPFProject2
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
-            dgAirport.ItemsSource = airportService.FilterAirport(txtFilterName.Text, txtFilterCountry.Text, txtFilterState.Text, txtFilterCity.Text);
+            searchName = txtFilterName.Text;
+            searchCountry = txtFilterCountry.Text;
+            searchState = txtFilterState.Text;
+            searchCity = txtFilterCity.Text;
+            airports = airportService.FilterAirport(txtFilterName.Text, txtFilterCountry.Text, txtFilterState.Text, txtFilterCity.Text);
+            isSearch = true;
+            LoadAirport();
         }
 
         private void btnreset_Click(object sender, RoutedEventArgs e)
@@ -276,7 +305,17 @@ namespace WPFProject2
                     airport.State = txtState.Text;
                     airport.City = txtCity.Text;
                     airportService.UpdateAirport(airport);
-                    dgAirport.ItemsSource = airportService.GetAllAirports();
+                    airports = airportService.GetAllAirports();
+                    if (isSearch)
+                    {
+                        airports = airportService.FilterAirport(searchName, searchCountry, searchState, searchCity);
+                    }
+                    else
+                    {
+                        airports = airportService.GetAllAirports();
+                    }
+                    LoadAirport();
+                    MessageBox.Show("Successfully");
                 }
                 else
                 {
@@ -313,7 +352,11 @@ namespace WPFProject2
                     airport.State = txtState.Text;
                     airport.City = txtCity.Text;
                     airportService.CreateAirport(airport);
-                    dgAirport.ItemsSource = airportService.GetAllAirports();
+                    airports = airportService.GetAllAirports();
+                    TotalPage = (int)Math.Ceiling((double)airports.Count / ItemsPerPage);
+                    CurrentPage = TotalPage;
+                    LoadAirport();
+                    MessageBox.Show("Successfully");
                 }
             }
         }
@@ -329,7 +372,17 @@ namespace WPFProject2
                     if (result == MessageBoxResult.Yes)
                     {
                         airportService.DeleteAirport(airport);
-                        dgAirport.ItemsSource = airportService.GetAllAirports();
+                        airports = airportService.GetAllAirports();
+                        if (isSearch)
+                        {
+                            airports = airportService.FilterAirport(searchName, searchCountry, searchState, searchCity);
+                        }
+                        else
+                        {
+                            airports = airportService.GetAllAirports();
+                        }
+                        LoadAirport();
+                        MessageBox.Show("Successfully");
                     }
                 }
                 else
@@ -346,7 +399,7 @@ namespace WPFProject2
         private void dgAirport_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid? dataGrid = sender as DataGrid;
-            if (dataGrid.SelectedItems.Count > 0)
+            if (dataGrid.SelectedItem != null)
             {
                 Airport airport = dataGrid.SelectedItem as Airport;
                 txtId.Text = airport.Id.ToString();
@@ -357,5 +410,49 @@ namespace WPFProject2
                 txtCity.Text = airport.City;
             }
         }
+
+        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                LoadAirport();
+            }
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPage < TotalPage)
+            {
+                CurrentPage++;
+                LoadAirport();
+            }
+        }
+
+        private void cmbItemsPerPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            ItemsPerPage = Int32.Parse(cmbItemsPerPage.SelectedValue.ToString());
+            LoadAirport();
+        }
+
+        private void txtPageNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPageNumber.Text))
+            {
+                if (!int.TryParse(txtPageNumber.Text, out int result))
+                {
+                    txtPageNumber.Text = "";
+                }
+                else
+                {
+                    CurrentPage = Int32.Parse(txtPageNumber.Text);
+                    LoadAirport();
+                }
+
+            }
+
+        }
+
     }
 }

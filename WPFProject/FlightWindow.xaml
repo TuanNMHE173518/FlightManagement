@@ -72,8 +72,9 @@
             <Border Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="40" Margin="200,10" >
                 <Label Content="AirLine Booking" Grid.Row="0" Grid.ColumnSpan="6" Grid.Column="1"  Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center"/>
             </Border>
-            <Button Grid.ColumnSpan="2" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"  Content="Back to home"  Margin="30" Width="100" FontSize="12" />
-
+            <Button Grid.ColumnSpan="2" Panel.ZIndex="1" x:Name="btnBack" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"    Margin="40,35,0,35" Width="50" FontSize="12" >
+                <materialDesign:PackIcon   Kind="ArrowLeft" Height="20" Width="30" VerticalAlignment="Center" />
+            </Button>
             <Border Grid.Row="1"  Background="#FFD6F1F0" CornerRadius="20" Margin="15">
                 <StackPanel Orientation="Vertical">
                     <Label Content="From" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"> </Label>

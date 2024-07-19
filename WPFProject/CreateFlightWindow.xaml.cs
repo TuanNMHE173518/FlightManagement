@@ -27,6 +27,7 @@ namespace WPFProject2
         private readonly IFlightService flightService;
         private readonly IAirportService airportService;
         private readonly IAirlineService airlineService;
+        private readonly IBookingService bookingService;
         private ObservableCollection<Flight> flights;
         private int currentPage;
         private int itemsPerPage;
@@ -36,6 +37,7 @@ namespace WPFProject2
             flightService = new FlightService();
             airportService = new AirportService();
             airlineService = new AirlineService();
+            bookingService = new BookingService();
             flights = new ObservableCollection<Flight>();
             currentPage = 1;
             itemsPerPage = 50;
@@ -255,9 +257,13 @@ namespace WPFProject2
             ListView listFlight = sender as ListView;
             if(listFlight.SelectedItem != null)
             {
+                
+                
                 Flight flight = listFlight.SelectedItem as Flight;
                 if (flight != null)
                 {
+                    int numberSeats = bookingService.CountNumberBookingByFlightId(flight.Id);
+                    txtEmptySeats.Text = (flight.NumberPassengers - numberSeats).ToString();
                     txtID.Text = flight.Id.ToString();
                     txtNumberPassengers.Text = flight.NumberPassengers.ToString();
                     cbFrom.SelectedValue = flight.DepartingAirport;
@@ -320,6 +326,7 @@ namespace WPFProject2
             LoadAirports();
             txtID.Text = "";
             txtNumberPassengers.Text = "";
+            txtEmptySeats.Text = "";
             cbAirline.SelectedValue = null;
             cbFrom.SelectedValue = null;
             cbTo.SelectedValue = null;
@@ -423,7 +430,7 @@ namespace WPFProject2
             if(int.TryParse(txtPageNumber.Text, out int pagenum))
             {
                 int totalPages = (int)Math.Ceiling((double)flights.Count / itemsPerPage);
-                if(pagenum >0 && pagenum < totalPages)
+                if(pagenum >0 && pagenum <= totalPages)
                 {
                     currentPage = pagenum;
                     DisplayPage(currentPage);

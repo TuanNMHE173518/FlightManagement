@@ -117,6 +117,7 @@ namespace WPFProject
             LoadBookingHistorys();
             dtBook.SelectedDate = null;
             dtDeparture.SelectedDate = null;
+            dtArrival.SelectedDate = null;
             cbStatus.SelectedValue = true;
         }
 

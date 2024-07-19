@@ -40,11 +40,28 @@
 
 
                 <materialDesign:PopupBox  Foreground="White" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False">
-                    <StackPanel Background="#F3923B" >
-                        <Button x:Name="btnHome" Click="btnHome_Click" Content="Home" FontSize="14" Foreground="White" FontWeight="Medium"></Button>
-                        <Button x:Name="btnProfile" Click="btnProfile_Click" Content="YourProfile" FontSize="14" Foreground="White" FontWeight="Medium"></Button>
-                        <Button x:Name="btnChangePassword" Click="btnChangePassword_Click" Content="Change Password" FontSize="14" Foreground="White" FontWeight="Medium"></Button>
-                    </StackPanel>
+                    <Grid Background="#F3923B" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="1" Grid.Row="0" x:Name="btnHome" Click="btnHome_Click" Content="Home"  FontSize="14" Foreground="White" FontWeight="Medium">
+
+                        </Button>
+                        <materialDesign:PackIcon  Kind="HomeAccount" Foreground="White" VerticalAlignment="Center" Height="30" Width="30" Grid.Column="0" Grid.Row="0" />
+                        <materialDesign:PackIcon Kind="AccountBoxOutline" Foreground="White" VerticalAlignment="Center" Height="30" Width="30" Grid.Column="0" Grid.Row="1"/>
+                        <Button Grid.Column="1" Grid.Row="1" x:Name="btnProfile" Click="btnProfile_Click" Content="Profile" FontSize="14" Foreground="White" FontWeight="Medium"></Button>
+                        <materialDesign:PackIcon Kind="LockReset"  Foreground="White" VerticalAlignment="Center" Height="30" Width="30" Grid.Column="0" Grid.Row="2"/>
+                        <Button Grid.Column="1" Grid.Row="2" x:Name="btnChangePassword" Click="btnChangePassword_Click" Content="Change Password" FontSize="14" Foreground="White" FontWeight="Medium"></Button>
+                        <materialDesign:PackIcon Kind="Logout" Foreground="White" VerticalAlignment="Center" Height="30" Width="30" Grid.Column="0" Grid.Row="3" />
+                        <Button Grid.Column="1" Grid.Row="3" x:Name="btnLogout" Click="btnLogout_Click" Content="Log out" FontSize="14" Foreground="White" FontWeight="Medium"></Button>
+                    </Grid>
                 </materialDesign:PopupBox>
                 <Label x:Name="lblProfile" Content="Profile" FontWeight="Medium" Foreground="White" FontSize="20" />
             </StackPanel>

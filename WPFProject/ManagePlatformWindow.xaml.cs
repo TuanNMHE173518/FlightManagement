@@ -286,6 +286,9 @@ namespace WPFProject2
             txtPlatformId.Text = "";
             txtPlatformName.Text = "";
             txtPlatformUrl.Text = "";
+            txtFilterName.Text = "";
+            txtFilterUrl.Text = "";
+            LoadPlatform();
         }
     }
 }

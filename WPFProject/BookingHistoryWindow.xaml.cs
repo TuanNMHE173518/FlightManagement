@@ -26,12 +26,32 @@ namespace WPFProject
         private readonly IBookingService bookingService;
         private readonly IAirportService airportService;
         private readonly IAirlineService airlineService;
+        private int CurrentPage = 1;
+        private int ItemsPerPage = 20;
+        private int TotalPage;
+        private bool isSearch = false;
+        private string searchName;
+        private bool searchStatus;
+        private DateTime? searchDepartureDate;
+        private DateTime? searchArrivalDate;
+        private DateTime? searchBookingDate;
+        private List<BookingInfoDTO> bookinginfor;
         public BookingHistoryWindow()
         {
             InitializeComponent();
             bookingService = new BookingService();
             airlineService = new AirlineService();
             airportService = new AirportService();
+            bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).ToList();
+            cmbItemsPerPage.ItemsSource = new[] { 5, 10, 20, 50, 100 };
+            cmbItemsPerPage.SelectedValue = 20;
+            var statusOptions = new List<MappingStatus>
+            {
+                new MappingStatus(){ Value = true, DisplayName = "Normal"},
+                new MappingStatus(){ Value = false, DisplayName = "Cancelled"}
+            };
+            cbStatus.ItemsSource = statusOptions;
+            cbStatus.SelectedValue = true;
             LoadBookingHistorys();
         }
 
@@ -50,65 +70,67 @@ namespace WPFProject
         private void LoadBookingHistorys()
         {
             lvBookingHistory.ItemsSource = null;
-            var bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).Take(100);
-            lvBookingHistory.ItemsSource = bookinginfor;
-            
-            var statusOptions = new List<MappingStatus>
+            TotalPage = (int)Math.Ceiling((double)bookinginfor.Count / ItemsPerPage);
+            if (CurrentPage > TotalPage)
             {
+                CurrentPage = TotalPage;
+            }
+            lvBookingHistory.ItemsSource = bookinginfor.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+            txtPageNumber.Text = CurrentPage.ToString();
+            txtTotalPage.Text = "of " + TotalPage;
 
-                new MappingStatus(){ Value = true, DisplayName = "Normal"},
-                new MappingStatus(){ Value = false, DisplayName = "Cancelled"}
-            };
-            cbStatus.ItemsSource = statusOptions;
             cbStatus.SelectedValuePath = "Value";
             cbStatus.DisplayMemberPath = "DisplayName";
-            cbStatus.SelectedValue = true;
-            
-
-            
-
         }
 
-        
 
-
-        
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            
             string name = txtName.Text;
+            searchName = name;
             bool status = bool.Parse(cbStatus.SelectedValue.ToString());
+            searchStatus = status;
             DateTime? departureDate = null;
             DateTime? arrivalDate = null;
             DateTime? bookingDate = null;
             if (dtDeparture.SelectedDate != null)
             {
                 departureDate = dtDeparture.SelectedDate.Value;
+                searchDepartureDate = dtDeparture.SelectedDate.Value;
             }
             if (dtArrival.SelectedDate != null)
             {
                 arrivalDate = dtArrival.SelectedDate.Value;
+                searchArrivalDate = dtArrival.SelectedDate.Value;
             }
             if (dtBook.SelectedDate != null)
             {
                 bookingDate = dtBook.SelectedDate.Value;
+                searchBookingDate = dtBook.SelectedDate.Value;
             }
-            var foundBooking = bookingService.FindByAirlineAirportAnddate(departureDate, arrivalDate, bookingDate,name,status);
+            var foundBooking = bookingService.FindByAirlineAirportAnddate(departureDate, arrivalDate, bookingDate, name, status);
             lvBookingHistory.ItemsSource = null;
-            lvBookingHistory.ItemsSource = foundBooking;
-
+            bookinginfor = foundBooking;
+            CurrentPage = 1;
+            LoadBookingHistorys();
+            isSearch = true;
         }
 
         private void btnSesetFilter_Click(object sender, RoutedEventArgs e)
         {
+            CurrentPage = 1;
+            bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).ToList();
             LoadBookingHistorys();
             dtBook.SelectedDate = null;
-            dtDeparture.SelectedDate = null;
+            dtArrival.SelectedDate = null;
+            dtDeparture.SelectedDate = null; ;
+            txtName.Text = string.Empty;
             cbStatus.SelectedValue = true;
+            isSearch = false;
         }
 
-        
+
 
         private void btnManageBaggage_Click(object sender, RoutedEventArgs e)
         {
@@ -145,17 +167,24 @@ namespace WPFProject
             ListView listView = (ListView)lvBookingHistory;
             if (listView?.SelectedItems.Count > 0)
             {
-                for(int i = 0; i < listView.SelectedItems.Count; i++)
+                for (int i = 0; i < listView.SelectedItems.Count; i++)
                 {
                     BookingInfoDTO bookingInfoDTO = (BookingInfoDTO)listView.SelectedItems[i];
-                    if(bookingInfoDTO != null)
+                    if (bookingInfoDTO != null)
                     {
                         Booking booking = bookingService.GetBookingById(bookingInfoDTO.id);
                         booking.Status = false;
                         bookingService.UpdateBooking(booking);
                     }
                 }
-
+                if (isSearch)
+                {
+                    bookinginfor = bookingService.FindByAirlineAirportAnddate(searchDepartureDate, searchArrivalDate, searchBookingDate, searchName, searchStatus);
+                }
+                else
+                {
+                    bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).ToList();
+                }
                 LoadBookingHistorys();
             }
             else
@@ -190,7 +219,14 @@ namespace WPFProject
                         bookingService.UpdateBooking(booking);
                     }
                 }
-
+                if (isSearch)
+                {
+                    bookinginfor = bookingService.FindByAirlineAirportAnddate(searchDepartureDate, searchArrivalDate, searchBookingDate, searchName, searchStatus);
+                }
+                else
+                {
+                    bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).ToList();
+                }
                 LoadBookingHistorys();
             }
             else
@@ -207,5 +243,73 @@ namespace WPFProject
                 Application.Current.Shutdown();
             }
         }
+
+        private void btnStatus_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Do you want to change status of this booking?", "Exit", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    int bookingId = Int32.Parse(button.Tag.ToString());
+                    Booking booking = bookingService.GetBookingById(bookingId);
+                    booking.Status = !booking.Status;
+                    bookingService.UpdateBooking(booking);
+                    bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).ToList();
+                    if (isSearch)
+                    {
+                        bookinginfor = bookingService.FindByAirlineAirportAnddate(searchDepartureDate, searchArrivalDate, searchBookingDate, searchName, searchStatus);
+                    }
+                    else
+                    {
+                        bookinginfor = bookingService.GetBookingInfos().OrderByDescending(b => b.BookingTime).ToList();
+                    }
+                    LoadBookingHistorys();
+                }
+            }
+        }
+
+        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                LoadBookingHistorys();
+            }
+        }
+
+        private void txtPageNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPageNumber.Text))
+            {
+                if (!int.TryParse(txtPageNumber.Text, out int result))
+                {
+                    txtPageNumber.Text = "";
+                }
+                else
+                {
+                    CurrentPage = Int32.Parse(txtPageNumber.Text);
+                    LoadBookingHistorys();
+                }
+
+            }
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPage < TotalPage)
+            {
+                CurrentPage++;
+                LoadBookingHistorys();
+            }
+        }
+
+        private void cmbItemsPerPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ItemsPerPage = Int32.Parse(cmbItemsPerPage.SelectedValue.ToString());
+            LoadBookingHistorys();
+        }
+
     }
 }

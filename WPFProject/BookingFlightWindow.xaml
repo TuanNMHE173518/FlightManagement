@@ -73,12 +73,8 @@
             <Border Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Background="#FFC5D9F1" CornerRadius="30" Margin="200,5" >
                 <Label Content="AirLine Booking"   Foreground="Black" Style="{StaticResource titleTextBox}" FontSize="45" FontWeight="Bold" HorizontalAlignment="Center"/>
             </Border>
-            <Button  x:Name="btnBack" Click="btnBack_Click" Background="#FF159D93"  Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="10"  Foreground="White" FontWeight="Medium" FontSize="18" >
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"></Setter>
-                    </Style>
-                </Button.Resources>
+            <Button Grid.ColumnSpan="2" x:Name="btnBack" Panel.ZIndex="1" Style="{StaticResource btnAccount}" Click="btnBack_Click" HorizontalAlignment="Left"    Margin="40,25,0,25" Width="50" FontSize="12" >
+                <materialDesign:PackIcon   Kind="ArrowLeft" Height="20" Width="30" VerticalAlignment="Center" />
             </Button>
             <Label Margin="0" Grid.ColumnSpan="3" Foreground="#FFEFF4BB" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Enter email to find existing passenger!" FontSize="24" FontWeight="Medium"></Label>
 

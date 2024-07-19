@@ -43,10 +43,10 @@ namespace Services
             bookingRepository.DeleteBooking(id);
         }
 
-        public List<BookingInfoDTO> FindByAirlineAirportAnddate(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime,string name, bool status)
+        public List<BookingInfoDTO> FindByAirlineAirportAnddate(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, bool status)
         {
             var foundBookings = GetBookingInfos().Where(b => (departureDate == null || b.DepartureTime >= departureDate)
-                                                            && (arrivalDate == null || b.ArrivalTime <= departureDate)
+                                                            && (arrivalDate == null || b.ArrivalTime <= arrivalDate)
                                                             && (bookingTime == null || b.BookingTime >= bookingTime)
                                                             && (b.Status == status)
                                                             && b.PassengerName.ToLower().Contains(name.ToLower())).ToList();
@@ -56,7 +56,7 @@ namespace Services
         public List<BookingInfoDTO> FindByAirlineAirportAnddateAndFlightId(DateTime? departureDate, DateTime? arrivalDate, DateTime? bookingTime, string name, string status, int flightId)
         {
             var foundBookings = GetBookingInfosByFlightId(flightId).Where(b => (departureDate == null || b.DepartureTime >= departureDate)
-                                                            && (arrivalDate == null || b.ArrivalTime <= departureDate)
+                                                            && (arrivalDate == null || b.ArrivalTime <= arrivalDate)
                                                             && (bookingTime == null || b.BookingTime >= bookingTime)
                                                             && (string.IsNullOrEmpty(status) || b.Status == bool.Parse(status))
                                                             && b.PassengerName.ToLower().Contains(name.ToLower())).ToList();
